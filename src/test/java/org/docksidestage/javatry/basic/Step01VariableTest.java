@@ -49,6 +49,11 @@ public class Step01VariableTest extends PlainTestCase {
         sea = sea + land + piari + ":" + dstore;
         log(sea); // your answer? => mystic8null:mai
         // nullは'"null"として文字列に変換される
+        // TODO kumoshita [いいね] 昔のインターネット画面ではよく「こんにちはnullさん」とか表示ありました^^ by jflute (2025/07/22)
+        // メール文面だと最近でも時々見かけますね。
+        // とはいえ、nullって出ることで間違いがわかりやすいって面もあるので、そうなってるのかなと。
+        // 一方で、例えば C# だと空文字に変換されます。(エラーになる言語はあまり聞いたことないかも!?)
+        // 些細な違いですが、言語によってこういうところ変わってきたりします。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -59,6 +64,7 @@ public class Step01VariableTest extends PlainTestCase {
         land = land + "'s dreams";
         log(sea); // your answer? => oneman
         // seaが持つのはlandsの参照であり、値ではないので、landの値が変わっても影響がない
+        // TODO kumoshita [いいね] しっかり変数は参照を持つだけっての理解されててGoodです by jflute (2025/07/22)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -69,6 +75,8 @@ public class Step01VariableTest extends PlainTestCase {
         land++;
         log(sea); // your answer? => 415
         // seaが持つのはlandsの参照であり、値ではないので、landの値が変わっても影響がない
+        // TODO kumoshita [ふぉろー] プリミティブ型の場合は、厳密には値そのものを持っているようなイメージです by jflute (2025/07/22)
+        // とはいえ、sea は415を持っていて、landが416に差し替えられてるだけなので影響がないことには変わりはないです。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -80,6 +88,11 @@ public class Step01VariableTest extends PlainTestCase {
         sea.add(new BigDecimal(1));
         log(sea); // your answer? => 416
         // BigDecimalは不変なので、sea.addしても値は増えない→何かしらに代入する必要あり
+        // TODO kumoshita [いいね] 不変 (immutable) の概念を理解してらっしゃるの素晴らしいです by jflute (2025/07/22)
+        // 一方で、immutableのクラスって具体的に何が良いのでしょう？というのを1on1で一緒に議論できればと。
+
+        // TODO jflute 1on1にてimmutableについて深堀り予定 (2025/07/22)
+        // (↑のtodoはくぼ用のtodoということで、そのもの残しておいてください)
     }
 
     // ===================================================================================
@@ -121,12 +134,16 @@ public class Step01VariableTest extends PlainTestCase {
         String sea = instanceBroadway + "|" + instanceDockside + "|" + instanceHangar + "|" + instanceMagiclamp;
         log(sea); // your answer? => bigband|1|null|magician
         // インスタンス変数を直接編集したものは値が変更される
-            // instanceBroadway = "bbb";　(最初はbbbが入っている)
-            // instanceMagiclamp = "magician"; (最初はmagicianが入っている)
-            // instanceBroadway = "bigband"; (ここでbigbandに変更される)
-            // ++instanceDockside; (ここで初期値0に1が加算されて1になる)
+        // instanceBroadway = "bbb";　(最初はbbbが入っている)
+        // instanceMagiclamp = "magician"; (最初はmagicianが入っている)
+        // instanceBroadway = "bigband"; (ここでbigbandに変更される)
+        // ++instanceDockside; (ここで初期値0に1が加算されて1になる)
         // 引数は参照渡しなので、メソッド内での変更は呼び出し元には影響しない
-            // instanceMagiclamp = "burn";
+        // instanceMagiclamp = "burn";
+        // TODO kumoshita [いいね] メソッド引数の参照渡しの概念しっかり理解されててGoodです by jflute (2025/07/22)
+        // test_側とhelp側でたまたま同じ名前の変数で引き渡ししていますが、渡ってるのは変数ではなく中身の参照(アドレス)ですからね。
+        // 引数としてのローカル変数のinstanceMagiclampに新しい参照を代入しても、
+        // インスタンス変数のinstanceMagiclampの指し示す先には何も影響がないと。
     }
 
     private void helpInstanceVariableViaMethod(String instanceMagiclamp) {
@@ -186,6 +203,8 @@ public class Step01VariableTest extends PlainTestCase {
         log(sea); // your answer? => harbor
         // seaはStringBuilder型であり、mutableなので、メソッド内での変更は呼び出し元に影響するが、ここでは新しいStringBuilderを作成してseaに代入したので呼び出し元のseaは変更されない
         // seaを直接編集しておらず、新しいStringBuilderを作成して代入しているため、呼び出し元のseaは影響を受けない
+        // TODO kumoshita [いいね] newされていることをしっかり認識されているのGood by jflute (2025/07/22)
+        // 同じクラスであっても別インスタンスであれば別物ですからね。
     }
 
     private void helpMethodArgumentVariable(StringBuilder sea, int land) {
@@ -250,7 +269,7 @@ public class Step01VariableTest extends PlainTestCase {
             return this.sea;
         }
     }
-    
+
     public void test_variable_yourExercise() {
         // write your code here
         DataContainer dataA = new DataContainer("initialDataA");
@@ -265,4 +284,7 @@ public class Step01VariableTest extends PlainTestCase {
         dataA.sea = "changed";
         dataB = new DataContainer("newData");
     }
+
+    // TODO kumoshita [いいね] 実際にコード読むだけでやってみました。ちょっとドキドキしますね(^^ by jflute (2025/07/22)
+    // mutable地獄ってやつですね。ふー合ってた良かった笑。
 }

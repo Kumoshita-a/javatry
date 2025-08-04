@@ -25,7 +25,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author Kumoshita-a
  */
 public class Step02IfForTest extends PlainTestCase {
 
@@ -42,6 +42,7 @@ public class Step02IfForTest extends PlainTestCase {
             sea = 2001;
         }
         log(sea); // your answer? => 2001
+        // seaは904以上なので、if文の条件式がtrueとなり、2001が代入される。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -52,7 +53,8 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 7;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
+        // seaは904なので、if文の条件式がfalseとなり、elseの処理が実行され、seaには7が代入される。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -67,37 +69,51 @@ public class Step02IfForTest extends PlainTestCase {
         } else {
             sea = 9;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 7
+        // seaは904なので、最初のif文の条件式がfalseとなり、次のelseif文の条件式がtrueとなるので、seaには7が代入される。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_if_elseif_nested() {
         boolean land = false;
         int sea = 904;
-        if (sea > 904) {
+        // (sea, land) = (904, false)
+        if (sea > 904) { // <falseなので実行されない>
             sea = 2001;
-        } else if (land && sea >= 904) {
+        } else if (land && sea >= 904) { // <falseなので実行されない>
             sea = 7;
-        } else if (sea >= 903 || land) {
+        } else if (sea >= 903 || land) { // <trueなので実行される>
             sea = 8;
-            if (!land) {
+            // (sea, land) = (8, false)
+            if (!land) { // <trueなので実行される>
                 land = true;
+                // (sea, land) = (8, true)
             } else if (sea <= 903) {
                 sea++;
             }
+            // <次のif文へ（つまり以下のelseif文は実行されない）>
         } else if (sea == 8) {
             sea++;
             land = false;
         } else {
             sea = 9;
         }
-        if (sea >= 9 || (sea > 7 && sea < 9)) {
+        if (sea >= 9 || (sea > 7 && sea < 9)) { // <trueなので実行される>
             sea--;
+            // (sea, land) = (7, true)
         }
-        if (land) {
+        if (land) { // <trueなので実行される>
             sea = 10;
+            // (sea, land) = (10, true)
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 10
+        // seaは904なので、最初のif文の条件式がfalseとなり、landはfalseなので次のelseif文の条件式（land が true かつ sea が 904 以上）もfalseとなる。
+        // また、次のelseif文の条件式（sea が 903 以上 または land が true ）はtrueとなり、seaには8が代入される。
+        // その中の処理では、landがfalseなので、if文の中の処理が実行され、landはtrueになる。
+        // seaが8より次のif文の条件式（sea が 9 以上 または sea が 7 より大きく 9 より小さい ）はtrueなので、seaは8から1引かれて7になる。
+        // landはtrueより最後のif文の条件式（land が true）はtrueなのでseaは10に変更される。
+        // よって、最終的にseaは10となる。
+        // 言葉で書くと長いのでコードに紐づけると上のコメントになる
     }
 
     // ===================================================================================
@@ -113,7 +129,12 @@ public class Step02IfForTest extends PlainTestCase {
                 sea = stage;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
+        // .size()は4なので、iは0から3までの値をとる。
+        // iが1のとき、stageListは{"broadway", "dockside", "hangar", "magiclamp"}となり、stageは"dockside"となる。
+        // したがって、stageList.get(i)ではi番目の要素が返りstageに代入される。
+        // iが1のときにseaにstageを代入する。このとき、stageは"dockside"なので、seaには"dockside"が入る。
+        // そのあとfor文の処理は続くが、if文の処理は実行されないので最終的に、seaは"dockside"となる。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -123,7 +144,9 @@ public class Step02IfForTest extends PlainTestCase {
         for (String stage : stageList) {
             sea = stage;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => magiclamp
+        // for-each文では、stageListの要素を順番にstageに代入していく。
+        // seaに順に要素が代入されるので、最終的にseaには最後の要素の"magiclamp"が入る。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -139,7 +162,13 @@ public class Step02IfForTest extends PlainTestCase {
                 break;
             }
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
+        // for-each文では、stageListの要素を順番にstageに代入していく。
+        // まず、stageが"broadway"のとき、if文の条件式(stage.startsWith("br"))がtrueとなるので、continue文により次のループへ移行する。
+        // 次に、stageが"dockside"のとき、if文の条件式(stage.startsWith("br"))がfalseとなるので、seaに"dockside"が代入される。
+        // 次に、stageが"hangar"のとき、if文の条件式(stage.startsWith("br"))がfalseとなるので、seaに"hangar"が代入される。
+        // さらに、if文の条件式(stage.contains("ga"))がtrueとなるので、break文によりループを抜ける。
+        // したがって、最終的にseaには"hangar"が入っている。
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -155,7 +184,15 @@ public class Step02IfForTest extends PlainTestCase {
             }
         });
         String sea = sb.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => dockside
+        // forEachメソッドでは、stageListの要素を順番にstageに代入していく。
+        // まず、stageが"broadway"のとき、sbは初期値で何も入っていないので、if文の条件式(sb.length() > 0)がfalseとなり、次のif文(stage.contains("i"))が実行される。
+        // このとき、"broadway"には"i"が含まれていないので、sbには何も追加されない。
+        // 次に、stageが"dockside"のとき、if文の条件式(sb.length() > 0)がfalseとなるので、次のif文(stage.contains("i"))が実行される。
+        // このとき、"dockside"には"i"が含まれているので、sbに"dockside"が追加される。
+        // 次に、stageが"hangar"のとき、if文の条件式(sb.length() > 0)がtrueとなるので、return文により次のループへ移行する。
+        // 最後に、stageが"magiclamp"のとき、if文の条件式(sb.length() > 0)がtrueとなるので、return文によりループが終わる。
+        // したがって、最終的にsbには"dockside"が入っているので、seaには"dockside"が代入される。
     }
 
     // ===================================================================================
@@ -167,6 +204,21 @@ public class Step02IfForTest extends PlainTestCase {
      */
     public void test_iffor_making() {
         // write if-for here
+        List<String> stageList = prepareStageList();
+        List<String> resultList = new ArrayList<>();
+        for (String stage : stageList) {
+            if (stage.contains("a")) {
+                resultList.add(stage);
+            }
+        }
+        for (String result : resultList) {
+            log(result);
+        }
+        /* answer:
+         * broadway
+         * hangar
+         * magiclamp
+         */
     }
 
     // ===================================================================================
@@ -177,18 +229,21 @@ public class Step02IfForTest extends PlainTestCase {
      * (foreach文をforEach()メソッドへの置き換えてみましょう (修正前と修正後で実行結果が同じになるように))
      */
     public void test_iffor_refactor_foreach_to_forEach() {
+        // write your code here
         List<String> stageList = prepareStageList();
         String sea = null;
-        for (String stage : stageList) {
-            if (stage.startsWith("br")) {
-                continue;
+        StringBuilder sb = new StringBuilder();
+        stageList.forEach(stage -> {
+            if (!stage.startsWith("br")) {
+                sb.append(stage);
             }
-            sea = stage;
             if (stage.contains("ga")) {
-                break;
+                return;
             }
-        }
-        log(sea); // should be same as before-fix
+            sb.replace(0, sb.length(), ""); // ここでsbを空にしておくことで、スタックされないようにする
+        });
+        sea = sb.toString();
+        log(sea); // your answer? => hangar
     }
 
     /**
@@ -197,12 +252,23 @@ public class Step02IfForTest extends PlainTestCase {
      * <pre>
      * _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
      * your question here (ここにあなたの質問を):
-     * 
+     * 以下のコードを実行したとき、変数 sea の中身は何になるでしょうか？
+     * また、以下のコードをfor-each文に書き換えるとどうなるでしょうか？
      * _/_/_/_/_/_/_/_/_/_/
      * </pre>
      */
     public void test_iffor_yourExercise() {
-        // write your code here
+        List<String> stageList = prepareStageList();
+        String sea = "";
+        for (int i = 0; i < stageList.size(); i++) {
+            if (i % 2 == 0) {
+                sea = stageList.get(i);
+            }
+            if (sea.startsWith("ma")) {
+                break;
+            }
+        }
+        log(sea); // your answer? => 
     }
 
     // ===================================================================================
@@ -215,5 +281,11 @@ public class Step02IfForTest extends PlainTestCase {
         stageList.add("hangar");
         stageList.add("magiclamp");
         return stageList;
+        /* prepareStageList()のリストは以下のようになる。
+         * 0. broadway
+         * 1. dockside
+         * 2. hangar
+         * 3. magiclamp
+         */
     }
 }

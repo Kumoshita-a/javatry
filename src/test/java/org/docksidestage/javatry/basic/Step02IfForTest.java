@@ -234,16 +234,24 @@ public class Step02IfForTest extends PlainTestCase {
         String sea = null;
         StringBuilder sb = new StringBuilder();
         stageList.forEach(stage -> {
-            if (!stage.startsWith("br")) {
-                sb.append(stage);
-            }
-            if (stage.contains("ga")) {
+            if (sb.length() > 0) { // sbが空でない場合つまり、該当の単語が見つかり、スタックに保存されている場合は何もしない
                 return;
+            } else {
+                if (!stage.startsWith("br")) {
+                    sb.append(stage);
+                }
+                if (stage.contains("ga")) {
+                    return;
+                    // これが実行されると、該当する最初の単語がスタックに保存され、のちの処理でスタックは更新されないようになる
+                } else {
+                    sb.replace(0, sb.length(), ""); // ここでsbを空にしておくことで、スタックされないようにする
+                }
             }
-            sb.replace(0, sb.length(), ""); // ここでsbを空にしておくことで、スタックされないようにする
         });
         sea = sb.toString();
         log(sea); // your answer? => hangar
+        // if文が多く、複雑度が高くなってしまった。
+        // TODO jflute サイクロマティック複雑度が高くなってしまったので、もう少しシンプルに書き直したほうがよい？ by kumoshita
     }
 
     /**

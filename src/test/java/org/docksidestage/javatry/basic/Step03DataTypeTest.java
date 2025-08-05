@@ -26,7 +26,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author Kumoshita-a
  */
 public class Step03DataTypeTest extends PlainTestCase {
 
@@ -54,7 +54,10 @@ public class Step03DataTypeTest extends PlainTestCase {
             BigDecimal addedDecimal = amba.add(new BigDecimal(land));
             sea = String.valueOf(addedDecimal);
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 18.4
+        // landの値の遷移：416 → 2001 → 10（初期値は9だが、bonvo = bonvo.plusMonths(1)で10に変わる） → 9
+        // dstoreはtrueなのでif内の処理が実行され、ambaにlandを足してseaに代入される。
+        // ambaの値は9.4なので、9.4 + 9 = 18.4となり、最終的にseaには"18.4"が代入される。 
     }
 
     // ===================================================================================
@@ -82,7 +85,14 @@ public class Step03DataTypeTest extends PlainTestCase {
         if ((int) dstore > piari) {
             sea = 0;
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 2
+        // seaだけに注目すると、seaへの代入箇所は三箇所ある。
+        // まず、if文の中で、sea = (byte) land;で127が代入される。
+        // 次に、もう一つのif文の中で、sea = (byte) amba;で2.3をbyte型にキャストする
+        // 残り一つは、if文の条件がfalseだった場合に、sea = 0;で0が代入される。
+        // dstoreの値は1.1fなので、(int) dstoreは1となり、piariは1なので、if文の条件はfalseとなる。
+        // したがって、if文の条件式はfalseとなり、処理は実行されない。
+        // よって、2.3をbyte型にキャストした結果である2が最終的にseaに代入されている。
     }
 
     // ===================================================================================
@@ -92,7 +102,10 @@ public class Step03DataTypeTest extends PlainTestCase {
     public void test_datatype_object() {
         St3ImmutableStage stage = new St3ImmutableStage("hangar");
         String sea = stage.getStageName();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => hangar
+        // stageはSt3ImmutableStageのインスタンスで、コンストラクタで初期化時にhangarを引数に渡しているので、インスタンス変数のstageNameは"hangar"が入る。
+        // getStageName()メソッドはstageNameを返すメソッドなので、stage.getStageName()を呼び出すとstageNameに入っている"hangar"が返される。
+        // そのため、seaには"hangar"が代入される。
     }
 
     private static class St3ImmutableStage {

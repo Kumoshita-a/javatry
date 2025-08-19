@@ -322,6 +322,7 @@ public class Step02IfForTest extends PlainTestCase {
     // 名前は相対的なものなので、全体像がハッキリしてから付けた方が効率が良い。
     // #1on1: プログラミングを書いている最中を見ること少ない話
     // #1on1: jfluteがライブコーディング積極的にやってる理由
+    // #1on1: IntelliJでrename: shift+shiftでren or control+Tでリファクタリングメニュー
 
     // ===================================================================================
     //                                                                        Small Helper

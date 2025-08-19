@@ -114,6 +114,12 @@ public class Step02IfForTest extends PlainTestCase {
         // landはtrueより最後のif文の条件式（land が true）はtrueなのでseaは10に変更される。
         // よって、最終的にseaは10となる。
         // 言葉で書くと長いのでコードに紐づけると上のコメントになる
+
+        // #1on1: 漠然読みで構造だけまず知って、目的を達成できそうなところをフォーカス読み (2025/08/08)
+        // 前回、BigDecimal@add()も同じような読み方をしていた。
+        // こういう読み方を意識していると、フレームワークやライブラリのソースコードを読めるようになる。
+        // 仮説思考と通じるところあるかも？
+        // https://jflute.hatenadiary.jp/entry/20150111/kasetsu
     }
 
     // ===================================================================================
@@ -147,6 +153,7 @@ public class Step02IfForTest extends PlainTestCase {
         log(sea); // your answer? => magiclamp
         // for-each文では、stageListの要素を順番にstageに代入していく。
         // seaに順に要素が代入されるので、最終的にseaには最後の要素の"magiclamp"が入る。
+        // #1on1 拡張for文という正式用語は、現場に浸透しているか？普通のfor文とは？ (2025/08/08)
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -193,6 +200,16 @@ public class Step02IfForTest extends PlainTestCase {
         // 次に、stageが"hangar"のとき、if文の条件式(sb.length() > 0)がtrueとなるので、return文により次のループへ移行する。
         // 最後に、stageが"magiclamp"のとき、if文の条件式(sb.length() > 0)がtrueとなるので、return文によりループが終わる。
         // したがって、最終的にsbには"dockside"が入っているので、seaには"dockside"が代入される。
+
+        // #1on1: 拡張for文とforEach()メソッドの使い分け (2025/08/08)
+        // 特徴: forEach()メソッドは、拡張for文に比べてできないことがけっこうある。
+        //
+        // A. forEach()メソッドでできるところはforEach(), できなければ拡張for文
+        // B. できるに越したことはなくて統一した方が世話ないから拡張for文
+        //
+        // o 現場のwebサービスのプログラムの中では、素直なループが圧倒的に多い
+        // o できるに越したことはない、ってことはないという考え方、できないって安全
+        // o 関数型プログラミングの影響
     }
 
     // ===================================================================================
@@ -251,7 +268,8 @@ public class Step02IfForTest extends PlainTestCase {
         sea = sb.toString();
         log(sea); // your answer? => hangar
         // if文が多く、複雑度が高くなってしまった。
-        // TODO jflute サイクロマティック複雑度が高くなってしまったので、もう少しシンプルに書き直したほうがよい？ by kumoshita
+        // TODO done jflute サイクロマティック複雑度が高くなってしまったので、もう少しシンプルに書き直したほうがよい？ by kumoshita
+        // TODO kumoshita 1on1でライブコーディングした内容を再現してみましょう by jflute (2025/08/08)
     }
 
     /**

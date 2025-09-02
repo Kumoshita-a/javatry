@@ -297,6 +297,33 @@ public class Step02IfForTest extends PlainTestCase {
         log(sea); // your answer? => 
     }
 
+    // by jflute (2025/08/19)
+    //StringBuilder seaSb = new StringBuilder();
+    //AtomicInteger index = new AtomicInteger(); // 強引
+    //stageList.forEach(stage -> {
+    //    if (seaSb.indexOf("ma") == 0) {
+    //        return;
+    //    }
+    //    if (index.get() % 2 == 0) {
+    //        seaSb.setLength(0);
+    //        seaSb.append(stage);
+    //        //sea = stageList.get(i);
+    //    }
+    //    //if (sea.startsWith("ma")) {
+    //    //    break;
+    //    //}
+    //    index.incrementAndGet();
+    //});
+    //log(seaSb);
+
+    // #1on1: リファクタリングは思考のツール
+    // https://jflute.hatenadiary.jp/entry/20121202/1354442627
+    // #1on1: 変数名やメソッド名を保留する理由
+    // 名前は相対的なものなので、全体像がハッキリしてから付けた方が効率が良い。
+    // #1on1: プログラミングを書いている最中を見ること少ない話
+    // #1on1: jfluteがライブコーディング積極的にやってる理由
+    // #1on1: IntelliJでrename: shift+shiftでren or control+Tでリファクタリングメニュー
+
     // ===================================================================================
     //                                                                        Small Helper
     //                                                                        ============

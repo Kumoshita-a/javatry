@@ -41,6 +41,8 @@ public class Step04MethodTest extends PlainTestCase {
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_method_call_many() {
+        // #1on1: step8の先取り、function, supplier, consumer のインターフェース紹介
+        // runnableの話も (ここだけ特殊なインターフェース、間借りしてるような感じ)
         String sea = functionSomething("mystic");
         consumeSomething(supplySomething());
         runnableSomething();
@@ -179,6 +181,10 @@ public class Step04MethodTest extends PlainTestCase {
     }
 
     // write methods here
+    // done kumoshita [いいね] privateメソッドの定義順、呼び出し順序と一致してわかりやすい by jflute (2025/09/04)
+    // #1on1: privateメソッドの呼び出し順から、独立するケースのお話 (再利用、独立ロジック)
+    // #1on1: 既存クラスに追加/修正するとき、そのクラスの品質責任は自分にあると考えて、バランスを取るように。
+    // #1on1: タグコメントのよもやま話
 
     private final boolean availableLogging = true;
 
@@ -190,6 +196,7 @@ public class Step04MethodTest extends PlainTestCase {
         return str.replace("C", "B");
     }
 
+    // done kumoshita [いいね] 第二引数の名前がちゃんと業務的な名前でわかりやすい by jflute (2025/09/04)
     private String quote(String str, String quotation) {
         return (quotation + str + quotation);
     }

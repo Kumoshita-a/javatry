@@ -251,6 +251,8 @@ public class Step02IfForTest extends PlainTestCase {
         String sea = null;
         StringBuilder sb = new StringBuilder();
         stageList.forEach(stage -> {
+            // TODO kumoshita "4文字目(index:3)がgaだったら" になっていますが、元々 "gaが含まれてたら" だったので... by jflute (2025/09/04)
+            // 現状、stageListに固定的に合わせるのではなく、stageListの内容が変わってもいいようにしましょう。
             if (sb.indexOf("ga") == 3) {
                 return;
             }
@@ -276,8 +278,8 @@ public class Step02IfForTest extends PlainTestCase {
         sea = sb.toString();
         log(sea); // your answer? => hangar
         // if文が多く、複雑度が高くなってしまった。
-        // TODO done jflute サイクロマティック複雑度が高くなってしまったので、もう少しシンプルに書き直したほうがよい？ by kumoshita
-        // TODO kumoshita 1on1でライブコーディングした内容を再現してみましょう by jflute (2025/08/08)
+        // done jflute サイクロマティック複雑度が高くなってしまったので、もう少しシンプルに書き直したほうがよい？ by kumoshita
+        // done kumoshita 1on1でライブコーディングした内容を再現してみましょう by jflute (2025/08/08)
         // done kumoshita 1on1でライブコーディングした内容を再現してみましょう by jflute (2025/09/03)
     }
 

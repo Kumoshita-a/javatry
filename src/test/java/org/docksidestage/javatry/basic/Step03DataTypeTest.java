@@ -93,6 +93,9 @@ public class Step03DataTypeTest extends PlainTestCase {
         // dstoreの値は1.1fなので、(int) dstoreは1となり、piariは1なので、if文の条件はfalseとなる。
         // したがって、if文の条件式はfalseとなり、処理は実行されない。
         // よって、2.3をbyte型にキャストした結果である2が最終的にseaに代入されている。
+
+        // #1on1: そもそも縮小変換とかややこしいプログラムを書かないようにという教訓。
+        // #1on1: プリミティブ型たくさんあるけど、実際には int, long, boolean くらいしか見かけない (業務サービスでは)
     }
 
     // ===================================================================================
@@ -106,6 +109,9 @@ public class Step03DataTypeTest extends PlainTestCase {
         // stageはSt3ImmutableStageのインスタンスで、コンストラクタで初期化時にhangarを引数に渡しているので、インスタンス変数のstageNameは"hangar"が入る。
         // getStageName()メソッドはstageNameを返すメソッドなので、stage.getStageName()を呼び出すとstageNameに入っている"hangar"が返される。
         // そのため、seaには"hangar"が代入される。
+
+        // #1on1: JavaのImmutableの基本形: String, BigDecimalも同じ形している。(2025/09/04)
+        // (コードリーディング)
     }
 
     private static class St3ImmutableStage {

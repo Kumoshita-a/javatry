@@ -251,9 +251,9 @@ public class Step02IfForTest extends PlainTestCase {
         String sea = null;
         StringBuilder sb = new StringBuilder();
         stageList.forEach(stage -> {
-            // TODO kumoshita "4文字目(index:3)がgaだったら" になっていますが、元々 "gaが含まれてたら" だったので... by jflute (2025/09/04)
+            // TODO done kumoshita "4文字目(index:3)がgaだったら" になっていますが、元々 "gaが含まれてたら" だったので... by jflute (2025/09/04)
             // 現状、stageListに固定的に合わせるのではなく、stageListの内容が変わってもいいようにしましょう。
-            if (sb.indexOf("ga") == 3) {
+            if (sb.indexOf("ga") > 0) {
                 return;
             }
 

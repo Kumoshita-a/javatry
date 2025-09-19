@@ -25,6 +25,7 @@ public class Ticket {
     //                                                                           =========
     private final int displayPrice; // written on ticket, park guest can watch this
     private boolean alreadyIn; // true means this ticket is unavailable
+    private int remainingDays = 1; // how many days remaining, e.g. 1 or 2
 
     // ===================================================================================
     //                                                                         Constructor
@@ -33,13 +34,19 @@ public class Ticket {
         this.displayPrice = displayPrice;
     }
 
+    public Ticket(int displayPrice, int remainingDays) {
+        this.displayPrice = displayPrice;
+        this.remainingDays = remainingDays;
+    }
+
     // ===================================================================================
     //                                                                             In Park
     //                                                                             =======
     public void doInPark() {
-        if (alreadyIn) {
+        if (alreadyIn && remainingDays <= 0) {
             throw new IllegalStateException("Already in park by this ticket: displayedPrice=" + displayPrice);
         }
+        --remainingDays;
         alreadyIn = true;
     }
 
@@ -52,5 +59,9 @@ public class Ticket {
 
     public boolean isAlreadyIn() {
         return alreadyIn;
+    }
+
+    public boolean isTwoDayPassport() {
+        return remainingDays == 2;
     }
 }

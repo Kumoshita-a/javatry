@@ -63,6 +63,8 @@ public class TicketBooth {
      * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
     public Ticket buyOneDayPassport(Integer handedMoney) {
+        // TODO kumoshita 修行++: 在庫を分離した状態で、でも流れも再利用したいところ by jflute (2025/09/19)
+        // TODO kumoshita [いいね] メソッド名、シンプルでわかりやすい by jflute (2025/09/19)
         validateTicketPurchase(handedMoney);
         --oneDayQuantity;
         updateSalesProceeds(ONE_DAY_PRICE);
@@ -70,6 +72,7 @@ public class TicketBooth {
     }
 
     private void validateTicketPurchase(Integer handedMoney) {
+        // #1on1: 順番違いのバグは、細かく分けるアーキテクチャとかになってくると、さらにわかりづらくなってくる
         if (oneDayQuantity <= 0) {
             throw new TicketSoldOutException("Sold out");
         }

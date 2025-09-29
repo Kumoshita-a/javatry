@@ -71,6 +71,25 @@ public class TicketBooth {
         return new Ticket(ONE_DAY_PRICE);
     }
 
+    public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
+        // 基本的なロジックはbuyOneDayPassportと同じ
+        validateTicketPurchase(handedMoney);
+        --twoDayQuantity;
+        updateSalesProceeds(TWO_DAY_PRICE);
+        Ticket ticket = new Ticket(TWO_DAY_PRICE, 2);
+        int change = handedMoney - TWO_DAY_PRICE;
+        return new TicketBuyResult(ticket, change);
+    }
+
+    public TicketBuyResult buyFourDayPassport(int handedMoney) {
+        validateTicketPurchase(handedMoney);
+        --fourDayQuantity;
+        updateSalesProceeds(FOUR_DAY_PRICE);
+        Ticket ticket = new Ticket(FOUR_DAY_PRICE, 4);
+        int change = handedMoney - FOUR_DAY_PRICE;
+        return new TicketBuyResult(ticket, change);
+    }
+
     private void validateTicketPurchase(Integer handedMoney) {
         // #1on1: 順番違いのバグは、細かく分けるアーキテクチャとかになってくると、さらにわかりづらくなってくる
         if (oneDayQuantity <= 0) {
@@ -78,6 +97,14 @@ public class TicketBooth {
         }
         if (handedMoney < ONE_DAY_PRICE) {
             throw new TicketShortMoneyException("Short money: " + handedMoney);
+        }
+    }
+
+    private void updateSalesProceeds(int passportPrice) {
+        if (salesProceeds != null) {
+            salesProceeds = salesProceeds + passportPrice;
+        } else {
+            salesProceeds = passportPrice;
         }
     }
 
@@ -123,32 +150,5 @@ public class TicketBooth {
 
     public Integer getSalesProceeds() {
         return salesProceeds;
-    }
-
-    public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
-        // 基本的なロジックはbuyOneDayPassportと同じ
-        validateTicketPurchase(handedMoney);
-        --twoDayQuantity;
-        updateSalesProceeds(TWO_DAY_PRICE);
-        Ticket ticket = new Ticket(TWO_DAY_PRICE, 2);
-        int change = handedMoney - TWO_DAY_PRICE;
-        return new TicketBuyResult(ticket, change);
-    }
-
-    private void updateSalesProceeds(int passportPrice) {
-        if (salesProceeds != null) {
-            salesProceeds = salesProceeds + passportPrice;
-        } else {
-            salesProceeds = passportPrice;
-        }
-    }
-
-    public TicketBuyResult buyFourDayPassport(int handedMoney) {
-        validateTicketPurchase(handedMoney);
-        --fourDayQuantity;
-        updateSalesProceeds(FOUR_DAY_PRICE);
-        Ticket ticket = new Ticket(FOUR_DAY_PRICE, 4);
-        int change = handedMoney - FOUR_DAY_PRICE;
-        return new TicketBuyResult(ticket, change);
     }
 }

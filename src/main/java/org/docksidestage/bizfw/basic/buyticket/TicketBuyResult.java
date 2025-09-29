@@ -1,6 +1,8 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO kumoshita ぜひ、authorを by jflute (2025/09/19)
+/**
+ * @author kumoshita
+ */
 public class TicketBuyResult {
     private final Ticket ticket;
     private final int change;

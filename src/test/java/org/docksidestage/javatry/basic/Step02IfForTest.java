@@ -253,7 +253,7 @@ public class Step02IfForTest extends PlainTestCase {
         stageList.forEach(stage -> {
             // done kumoshita "4文字目(index:3)がgaだったら" になっていますが、元々 "gaが含まれてたら" だったので... by jflute (2025/09/04)
             // 現状、stageListに固定的に合わせるのではなく、stageListの内容が変わってもいいようにしましょう。
-            // TODO kumoshita 先頭にgaがある場合も含むようにしましょう > → >= by jflute (2025/09/19)
+            // TODO done kumoshita 先頭にgaがある場合も含むようにしましょう > → >= by jflute (2025/09/19)
             if (sb.indexOf("ga") >= 0) {
                 return;
             }

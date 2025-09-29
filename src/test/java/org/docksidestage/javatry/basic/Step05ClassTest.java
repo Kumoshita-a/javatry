@@ -129,12 +129,13 @@ public class Step05ClassTest extends PlainTestCase {
         // uncomment after making the method
         TicketBooth booth = new TicketBooth();
         int money = 14000;
-        TicketBuyResult change = booth.buyTwoDayPassport(money);
-        Integer sea = booth.getSalesProceeds() + change.getChange();
+        TicketBuyResult result = booth.buyTwoDayPassport(money);
+        Ticket ticket = result.getTicket();
+        Integer sea = booth.getSalesProceeds() + result.getChange();
         log("salesProceeds=" + sea); // should be same as money -> 14000
 
         // and show two-day passport quantity here
-        log("twoDayQuantity=" + booth.getQuantity(2)); // should be max quantity -1 -> 19
+        log("twoDayQuantity=" + booth.getQuantity(ticket.getTicketType())); // should be max quantity -1 -> 19
     }
 
     /**
@@ -202,9 +203,9 @@ public class Step05ClassTest extends PlainTestCase {
     public void test_class_moreFix_whetherTicketType() {
         // uncomment when you implement this exercise
         TicketBooth booth = new TicketBooth();
-        Ticket oneDayPassport = booth.buyOneDayPassport(10000);
+        Ticket oneDayPassport = booth.buyOneDayPassport(14000);
         showTicketIfNeeds(oneDayPassport); // other
-        TicketBuyResult buyResult = booth.buyTwoDayPassport(10000);
+        TicketBuyResult buyResult = booth.buyTwoDayPassport(14000);
         Ticket twoDayPassport = buyResult.getTicket();
         showTicketIfNeeds(twoDayPassport); // two-day passport
     }
@@ -252,19 +253,38 @@ public class Step05ClassTest extends PlainTestCase {
      * (NightOnlyTwoDayPassport (金額は7400) のチケットも買えるようにしましょう。夜しか使えないようにしましょう)
      */
     public void test_class_moreFix_wonder_night() {
-        // your confirmation code here
-        TicketBooth booth = new TicketBooth();
-        TicketBuyResult buyResult = booth.buyNightOnlyTwoDayPassport(10000);
-        Ticket nightOnlyTwoDayPassport = buyResult.getTicket();
-        log(nightOnlyTwoDayPassport.getDisplayPrice()); // should be same as night-only two-day price -> 7400
-        int change = buyResult.getChange();
-        Integer sea = booth.getSalesProceeds() + change;
-        log(sea); // should be same as money -> 10000
-        log(nightOnlyTwoDayPassport.isAlreadyIn()); // should be false
-        nightOnlyTwoDayPassport.doInPark();
-        log(nightOnlyTwoDayPassport.isAlreadyIn()); // should be true
-        nightOnlyTwoDayPassport.doInPark();
-        log(nightOnlyTwoDayPassport.isAlreadyIn()); // should be true
+        // 指定した複数時刻で NightOnlyTwoDayPassport の挙動を検証
+        // 17:00 未満 -> 失敗, 17:00 以降 -> 成功 となるかを確認する
+        java.time.LocalTime[] patternTimes = { java.time.LocalTime.of(16, 59), java.time.LocalTime.of(17, 0),
+                java.time.LocalTime.of(21, 30) };
+
+        for (java.time.LocalTime time : patternTimes) {
+            log("-- time pattern: " + time + " --");
+            Ticket.__testFixCurrentTime(time); // テスト用固定
+            TicketBooth booth = new TicketBooth();
+            int money = 10000;
+            TicketBuyResult buyResult = booth.buyNightOnlyTwoDayPassport(money);
+            Ticket nightOnly = buyResult.getTicket();
+            log(nightOnly.getDisplayPrice()); // 7400 期待
+            int change = buyResult.getChange();
+            Integer sea = booth.getSalesProceeds() + change;
+            log(sea); // 10000 期待
+            boolean entered = false;
+            try {
+                nightOnly.doInPark();
+                entered = true;
+            } catch (IllegalStateException e) {
+                log("(expected if day) cannot enter: " + e.getMessage());
+            }
+            // アサート (JDK8 古い JUnit なのでシンプルに条件分岐)
+            if (time.isBefore(java.time.LocalTime.of(17, 0))) {
+                assertFalse("16:59 は入場できない想定", entered);
+            } else {
+                assertTrue(time + " は入場できる想定", entered);
+            }
+        }
+        // リセット
+        Ticket.__testFixCurrentTime(null);
     }
 
     /**

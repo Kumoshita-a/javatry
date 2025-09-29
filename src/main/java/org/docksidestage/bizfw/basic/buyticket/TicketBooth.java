@@ -23,25 +23,37 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final int MAX_ONE_DAY_QUANTITY = 10;
-    private static final int MAX_TWO_DAY_QUANTITY = 20;
-    private static final int MAX_FOUR_DAY_QUANTITY = 40;
-    private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
-    private static final int TWO_DAY_PRICE = 13200; // when 2025/09/10
-    private static final int FOUR_DAY_PRICE = 22400; // when 2025/09/10
+    // -----------------------------------------------------------------------------------
+    // 旧ハードコード定義 (参照用としてコメントアウトで残す)
+    // private static final int MAX_ONE_DAY_QUANTITY = 10;
+    // private static final int MAX_TWO_DAY_QUANTITY = 20;
+    // private static final int MAX_FOUR_DAY_QUANTITY = 40;
+    // private static final int ONE_DAY_PRICE = 7400; // when 2019/06/15
+    // private static final int TWO_DAY_PRICE = 13200; // when 2025/09/10
+    // private static final int FOUR_DAY_PRICE = 22400; // when 2025/09/10
+    // -----------------------------------------------------------------------------------
+    // 新実装: TicketType ベースでスケーラブルに管理
+    // price や days, default inventory は TicketType が保持
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    private int oneDayQuantity = MAX_ONE_DAY_QUANTITY;
-    private int twoDayQuantity = MAX_TWO_DAY_QUANTITY;
-    private int fourDayQuantity = MAX_FOUR_DAY_QUANTITY;
-    private Integer salesProceeds; // null allowed: until first purchase
+    // private int oneDayQuantity = MAX_ONE_DAY_QUANTITY;
+    // private int twoDayQuantity = MAX_TWO_DAY_QUANTITY;
+    // private int fourDayQuantity = MAX_FOUR_DAY_QUANTITY;
+    private Integer salesProceeds; // null allowed: until first purchase (仕様維持)
+
+    // 在庫管理: 種別ごと
+    private final java.util.Map<TicketType, Integer> inventoryMap = new java.util.EnumMap<>(TicketType.class);
 
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
     public TicketBooth() {
+        // Enum をループしてデフォルト在庫を初期化
+        for (TicketType type : TicketType.values()) {
+            inventoryMap.put(type, type.getDefaultInventory());
+        }
     }
 
     // ===================================================================================
@@ -63,49 +75,56 @@ public class TicketBooth {
      * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
     public Ticket buyOneDayPassport(Integer handedMoney) {
-        // TODO kumoshita 修行++: 在庫を分離した状態で、でも流れも再利用したいところ by jflute (2025/09/19)
-        // TODO kumoshita [いいね] メソッド名、シンプルでわかりやすい by jflute (2025/09/19)
-        validateTicketPurchase(handedMoney);
-        --oneDayQuantity;
-        updateSalesProceeds(ONE_DAY_PRICE);
-        return new Ticket(ONE_DAY_PRICE);
+        return doBuyOneDay(handedMoney);
     }
 
     public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
-        // 基本的なロジックはbuyOneDayPassportと同じ
-        validateTicketPurchase(handedMoney);
-        --twoDayQuantity;
-        updateSalesProceeds(TWO_DAY_PRICE);
-        Ticket ticket = new Ticket(TWO_DAY_PRICE, 2);
-        int change = handedMoney - TWO_DAY_PRICE;
+        Ticket ticket = doBuy(TicketType.TWO_DAY, handedMoney);
+        int change = handedMoney - ticket.getDisplayPrice();
         return new TicketBuyResult(ticket, change);
     }
 
     public TicketBuyResult buyFourDayPassport(int handedMoney) {
-        validateTicketPurchase(handedMoney);
-        --fourDayQuantity;
-        updateSalesProceeds(FOUR_DAY_PRICE);
-        Ticket ticket = new Ticket(FOUR_DAY_PRICE, 4);
-        int change = handedMoney - FOUR_DAY_PRICE;
+        Ticket ticket = doBuy(TicketType.FOUR_DAY, handedMoney);
+        int change = handedMoney - ticket.getDisplayPrice();
         return new TicketBuyResult(ticket, change);
     }
 
-    private void validateTicketPurchase(Integer handedMoney) {
-        // #1on1: 順番違いのバグは、細かく分けるアーキテクチャとかになってくると、さらにわかりづらくなってくる
-        if (oneDayQuantity <= 0) {
-            throw new TicketSoldOutException("Sold out");
+    public TicketBuyResult buyNightOnlyTwoDayPassport(int handedMoney) {
+        Ticket ticket = doBuy(TicketType.NIGHT_ONLY_TWO_DAY, handedMoney);
+        int change = handedMoney - ticket.getDisplayPrice();
+        return new TicketBuyResult(ticket, change);
+    }
+
+    // 内部共通 (OneDay は既存シグネチャ互換のため戻り値 Ticket のみ)
+    private Ticket doBuyOneDay(int handedMoney) {
+        return doBuy(TicketType.ONE_DAY, handedMoney);
+    }
+
+    private Ticket doBuy(TicketType type, int handedMoney) {
+        validateTicketPurchase(type, handedMoney);
+        reduceInventory(type);
+        updateSalesProceeds(type.getPrice());
+        return new Ticket(type);
+    }
+
+    private void validateTicketPurchase(TicketType type, int handedMoney) {
+        // 在庫確認
+        int current = inventoryMap.get(type);
+        if (current <= 0) {
+            throw new TicketSoldOutException("Sold out: type=" + type);
         }
-        if (handedMoney < ONE_DAY_PRICE) {
-            throw new TicketShortMoneyException("Short money: " + handedMoney);
+        if (handedMoney < type.getPrice()) {
+            throw new TicketShortMoneyException("Short money: type=" + type + " money=" + handedMoney);
         }
     }
 
+    private void reduceInventory(TicketType type) {
+        inventoryMap.put(type, inventoryMap.get(type) - 1);
+    }
+
     private void updateSalesProceeds(int passportPrice) {
-        if (salesProceeds != null) {
-            salesProceeds = salesProceeds + passportPrice;
-        } else {
-            salesProceeds = passportPrice;
-        }
+        salesProceeds = (salesProceeds != null ? salesProceeds : 0) + passportPrice;
     }
 
     public static class TicketSoldOutException extends RuntimeException {
@@ -129,8 +148,8 @@ public class TicketBooth {
     // ===================================================================================
     //                                                                            Accessor
     //                                                                            ========
-    public int getQuantity() {
-        return oneDayQuantity;
+    public int getQuantity() { // Step06でも使用していたのでStep05用はオーバーロードで残す
+        return inventoryMap.get(TicketType.ONE_DAY);
     }
 
     // オーバーロード機能
@@ -138,14 +157,18 @@ public class TicketBooth {
     // これにより、引数の有無でメソッドを使い分けること可能となる
     // 今回は、引数なしで呼び出すと1日券の数量を取得し、引数にtrueを渡すと2日券の数量を取得する
     // なぜ、これをするのか→1日券と2日券の数量を同じメソッド名で取得できるようにするため。2日目の実装した際に1日目の実装を変えたくないため。
-    public int getQuantity(int remainingDays) {
-        if (remainingDays == 2) {
-            return twoDayQuantity;
-        }
-        if (remainingDays == 4) {
-            return fourDayQuantity;
-        }
-        return oneDayQuantity;
+    // この実装は削除→チケットタイプで取得するように変更
+    // public int getQuantity(int remainingDays) {
+    //     if (remainingDays == 2) {
+    //         return twoDayQuantity;
+    //     }
+    //     if (remainingDays == 4) {
+    //         return fourDayQuantity;
+    //     }
+    //     return oneDayQuantity;
+    // }
+    public int getQuantity(TicketType type) {
+        return inventoryMap.get(type);
     }
 
     public Integer getSalesProceeds() {

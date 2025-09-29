@@ -1,7 +1,7 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
 /**
- * @author kumoshita
+ * @author Kumoshita-a
  */
 public class TicketBuyResult {
     private final Ticket ticket;

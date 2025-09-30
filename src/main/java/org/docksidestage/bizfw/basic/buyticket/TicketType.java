@@ -1,5 +1,6 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
+// TODO kumo javadocが分離してる!? by jflute (2025/09/30)
 /**
  * @author Kumoshita-a
  */
@@ -9,9 +10,11 @@ package org.docksidestage.bizfw.basic.buyticket;
  * 新しいチケットを追加したい場合はEnum定数を追加するだけで良い。
  */
 public enum TicketType {
-    ONE_DAY(7400, 1, 10, TimeSlot.ALL_DAY),
-    TWO_DAY(13200, 2, 20, TimeSlot.ALL_DAY),
-    FOUR_DAY(22400, 4, 40, TimeSlot.ALL_DAY),
+    // #1on1: IntelliJでもEclipseでも、フォーマッターで横に一列並んでしまうのでhackで//技 (2025/09/30)
+    // #1on1: よもやま: 現場(DBFlute)だと区分値のenumはほぼほぼ自動生成しちゃう (2025/09/30)
+    ONE_DAY(7400, 1, 10, TimeSlot.ALL_DAY), //
+    TWO_DAY(13200, 2, 20, TimeSlot.ALL_DAY), // 
+    FOUR_DAY(22400, 4, 40, TimeSlot.ALL_DAY), //
     NIGHT_ONLY_TWO_DAY(7400, 2, 15, TimeSlot.NIGHT_ONLY),
     ;
 

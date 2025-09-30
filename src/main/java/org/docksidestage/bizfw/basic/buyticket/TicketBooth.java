@@ -15,6 +15,7 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
+// TODO kumo javadocにauthor追加を by jflute (2025/09/30)
 /**
  * @author jflute
  */
@@ -43,6 +44,11 @@ public class TicketBooth {
     // private int fourDayQuantity = MAX_FOUR_DAY_QUANTITY;
     private Integer salesProceeds; // null allowed: until first purchase (仕様維持)
 
+    // #1on1: mutable な Quantityクラスを作るというやり方もある。Mapと両方やることもできる // (2025/09/30)
+    //private final Quantity oneDayQuantity = 10;
+    //private final Quantity twoDayQuantity = 10;
+    
+    // #1on1: 一方で、このMapで解決してるやり方はとてもGood。 (2025/09/30)
     // 在庫管理: 種別ごと
     private final java.util.Map<TicketType, Integer> inventoryMap = new java.util.EnumMap<>(TicketType.class);
 
@@ -75,9 +81,11 @@ public class TicketBooth {
      * @throws TicketShortMoneyException When the specified money is short for purchase.
      */
     public Ticket buyOneDayPassport(Integer handedMoney) {
+        // #1on1: 再利用ジレンマ、ちょっとのムダを許容して統一させるか？律儀に最低限の再利用にするか？ (2025/09/30)
         return doBuyOneDay(handedMoney);
     }
 
+    // TODO kumo change の計算をprivateで再利用してみましょう by jflute (2025/09/30)
     public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
         Ticket ticket = doBuy(TicketType.TWO_DAY, handedMoney);
         int change = handedMoney - ticket.getDisplayPrice();

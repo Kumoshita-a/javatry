@@ -37,6 +37,7 @@ public class Ticket {
     private int remainingDays; // 残利用可能日数 (0になったら利用不可)
     private boolean inside; // 現在パーク内にいるかどうか (enter()でtrue、exit()でfalse)
 
+    // TODO kumo static はインスタンス変数(Attribute)よりも上に定義するのがjavaの慣習なので移動をお願いします by jflute (2025/09/30)
     // Night判定用定数 (暫定仕様: 17:00以降を夜とみなす。終了境界は日付変更前まで)
     // 将来的には (start, end) を TimeSlot 側に保持したり、設定ファイル化する案もある。
     private static final LocalTime NIGHT_START = LocalTime.of(17, 0);
@@ -47,6 +48,9 @@ public class Ticket {
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
+    // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+    // #1on1: 全体的にコメントが素晴らしい (2025/09/30)
+    // _/_/_/_/_/_/_/_/
     // 旧コンストラクタ互換: OneDay想定
     public Ticket(int displayPrice) { // 既存テスト互換のため残す
         // ONE_DAY相当として扱う (将来 displayPrice が ONE_DAY と異なるケースが来たら廃止検討)
@@ -84,6 +88,8 @@ public class Ticket {
         if (remainingDays <= 0) {
             throw new IllegalStateException("利用可能日数が残っていません: type=" + ticketType);
         }
+        // #1on1: 本来は、TimeSlotで詳しい時間帯を管理して、すべての時間帯に対してenumだけで解決できるように by くもしたさん
+        // 現状は、そこまでやる必要はないということで、以下のようになっている。
         // 2. 夜専用チケットの場合の時間帯チェック
         if (ticketType.getTimeSlot() == TimeSlot.NIGHT_ONLY) {
             LocalTime now = fixedNowForTest != null ? fixedNowForTest : LocalTime.now();
@@ -110,6 +116,7 @@ public class Ticket {
         inside = false;
     }
 
+    // TODO kumo @return を追加を。こういうメソッドは、逆に説明省略で、@returnだけでもOK by jflute (2025/09/30)
     /**
      * 現在パーク内にいるかどうか。
      */
@@ -129,6 +136,8 @@ public class Ticket {
     }
 
     public boolean isTwoDayPassport() { // 判定仕様を type に基づいて行う
+        // TODO kumo 昼間オンリーTwoDayが追加されたとき、ここも追加しないといけないのがもったいない by jflute (2025/09/30)
+        // なんちゃTwoDayが全部trueになるのであれば、getDays() == 2 でもいいのかも!?
         return ticketType == TicketType.TWO_DAY || ticketType == TicketType.NIGHT_ONLY_TWO_DAY;
     }
 
@@ -157,6 +166,10 @@ public class Ticket {
     // ===================================================================================
     //                                                                      Test Utility
     //                                                                      ============
+    // #1on1: 手軽な方法として、意外に現実的 (大きな仕組みを作らずサクッと) (2025/09/30)
+    // ちょっと危ないかもしれないけど、目立つメソッド名で (社内だけで使うものとか前提であれば)
+    // (オブジェクト指向的にやるとしたら、TicketBoothを継承してmockをつくったりなどなど: 思考トレーニング)
+    // #1on1: LastaFlute の shootBowgunCurrentTimeProvider() を追ってみた
     /**
      * (テスト専用) 現在時刻を固定して Night 判定を制御する。null を渡すとリセット。
      * @param time 固定する時刻 (null 可)

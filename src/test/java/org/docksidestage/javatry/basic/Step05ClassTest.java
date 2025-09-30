@@ -295,6 +295,9 @@ public class Step05ClassTest extends PlainTestCase {
         // your confirmation code here
     }
 
+    // #1on1: コメントを書こうと思えばしっかり書ける人だからこそ、省略できる。
+    // NxBatchRecorder のコードを眺めて参考に。
+    // (余談、コピペ前提OSSのクラス)
     /**
      * Write intelligent JavaDoc comments seriously on the public classes/constructors/methods of the Ticket class. <br>
      * (Ticketクラスのpublicなクラス/コンストラクター/メソッドに、気の利いたJavaDocコメントを本気で書いてみましょう)

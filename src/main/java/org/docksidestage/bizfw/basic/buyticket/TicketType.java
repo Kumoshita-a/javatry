@@ -1,11 +1,8 @@
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO kumo javadocが分離してる!? by jflute (2025/09/30)
+// TODO done kumo javadocが分離してる!? by jflute (2025/09/30)
 /**
  * @author Kumoshita-a
- */
-
-/**
  * チケット種別。価格、利用可能日数、デフォルト在庫数、利用可能時間帯を保持する。
  * 新しいチケットを追加したい場合はEnum定数を追加するだけで良い。
  */

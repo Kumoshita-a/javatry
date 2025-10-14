@@ -15,9 +15,10 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO kumo javadocにauthor追加を by jflute (2025/09/30)
+// TODO done kumo javadocにauthor追加を by jflute (2025/09/30)
 /**
  * @author jflute
+ * @author Kumoshita-a
  */
 public class TicketBooth {
 
@@ -85,22 +86,22 @@ public class TicketBooth {
         return doBuyOneDay(handedMoney);
     }
 
-    // TODO kumo change の計算をprivateで再利用してみましょう by jflute (2025/09/30)
+    // TODO done kumo change の計算をprivateで再利用してみましょう by jflute (2025/09/30)
     public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
         Ticket ticket = doBuy(TicketType.TWO_DAY, handedMoney);
-        int change = handedMoney - ticket.getDisplayPrice();
+        int change = calculateChange(handedMoney, ticket);
         return new TicketBuyResult(ticket, change);
     }
 
     public TicketBuyResult buyFourDayPassport(int handedMoney) {
         Ticket ticket = doBuy(TicketType.FOUR_DAY, handedMoney);
-        int change = handedMoney - ticket.getDisplayPrice();
+        int change = calculateChange(handedMoney, ticket);
         return new TicketBuyResult(ticket, change);
     }
 
     public TicketBuyResult buyNightOnlyTwoDayPassport(int handedMoney) {
         Ticket ticket = doBuy(TicketType.NIGHT_ONLY_TWO_DAY, handedMoney);
-        int change = handedMoney - ticket.getDisplayPrice();
+        int change = calculateChange(handedMoney, ticket);
         return new TicketBuyResult(ticket, change);
     }
 
@@ -114,6 +115,10 @@ public class TicketBooth {
         reduceInventory(type);
         updateSalesProceeds(type.getPrice());
         return new Ticket(type);
+    }
+
+    private int calculateChange(Integer handedMoney, Ticket ticket) {
+        return handedMoney - ticket.getDisplayPrice();
     }
 
     private void validateTicketPurchase(TicketType type, int handedMoney) {

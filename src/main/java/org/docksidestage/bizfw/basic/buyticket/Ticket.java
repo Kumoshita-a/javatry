@@ -22,7 +22,8 @@ import java.time.LocalTime; // Night判定用
  * @author Kumoshita-a
  */
 public class Ticket {
-    // TODO done static はインスタンス変数(Attribute)よりも上に定義するのがjavaの慣習なので移動をお願いします by jflute (2025/09/30)
+    
+    // done static はインスタンス変数(Attribute)よりも上に定義するのがjavaの慣習なので移動をお願いします by jflute (2025/09/30)
     // Night判定用定数 (暫定仕様: 17:00以降を夜とみなす。終了境界は日付変更前まで)
     // 将来的には (start, end) を TimeSlot 側に保持したり、設定ファイル化する案もある。
     private static final LocalTime NIGHT_START = LocalTime.of(17, 0);
@@ -115,7 +116,7 @@ public class Ticket {
         inside = false;
     }
 
-    // TODO done kumo @return を追加を。こういうメソッドは、逆に説明省略で、@returnだけでもOK by jflute (2025/09/30)
+    // done kumo @return を追加を。こういうメソッドは、逆に説明省略で、@returnだけでもOK by jflute (2025/09/30)
     /**
      * @return 現在パーク内にいるかどうか。
      */
@@ -135,7 +136,7 @@ public class Ticket {
     }
 
     public boolean isTwoDayPassport() { // 判定仕様を type に基づいて行う
-        // TODO done kumo 昼間オンリーTwoDayが追加されたとき、ここも追加しないといけないのがもったいない by jflute (2025/09/30)
+        // done kumo 昼間オンリーTwoDayが追加されたとき、ここも追加しないといけないのがもったいない by jflute (2025/09/30)
         // なんちゃTwoDayが全部trueになるのであれば、getDays() == 2 でもいいのかも!?
         // 採用しました！（一旦２日入れることが可能なチケットとして要件定義する）
         return ticketType.getDays() == 2;

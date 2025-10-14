@@ -47,6 +47,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (OneDayPassportを買って InPark する処理の中で、(simulationを除いて)間違いがいくつかあるので修正しましょう)
      */
     public void test_objectOriented_aboutObject_againstObject() {
+        // TODO kumo (1on1の後に気付いた) 間違い、あと2つあります。結構単純な間違いです by jflute (2025/10/14)
         //
         // [ticket booth info]
         //
@@ -92,6 +93,19 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         }
         alreadyIn = true;
 
+        // #1on1: ベタ書きとオブジェクト使ったやり方の差の話。
+        // メソッドを作る側の意識:
+        // o 極力、こういうメソッド作らないように努力
+        // o オブジェクトを導入したり... (オブジェクトの粒度は色々)
+        // o 引数の順序を工夫したり... (100%の技ではないが)
+        // o javadocで引数を強調したり... (100%の技ではないが)
+        //
+        // メソッドを呼ぶ側の意識:
+        // o 5秒指差し確認 ☆技術者としてのスキルというよりも開発者としてのスキル (ものづくりスキル)
+        // o 5秒指差しをやるとき、やらないときがある: 仕事も早くて安定してる人は、やった方がいいときやる
+        // o 経験で、「ここ危ないな」って場面をよく知っているかどうか？意識しているかどうか？
+        // o その積み重ねをしている人としていない人
+        // o あと、自分が間違えやすいポイントを知ってる人、「ここ自分は危ないな」
         //
         // [final process]
         //
@@ -181,6 +195,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // オブジェクトとは何か？
         // - ドメイン上の意味と、それを一貫した正しい状態に保つ振る舞いをひとまとまりにしたもの
         // - 外部から同様に呼び出せるようにデータとメソッドをまとめたもの (処理に変更を加えた際に他の箇所も同様に変更を反映できるようにしたもの：保守性を高める)
+
+        // #1on1: "ドメイン上の意味" をいかに見出すかがポイント。
+        // トップダウンアプローチとボトムアップアプローチ
+        // DB設計でも同じ
+        // 両方をうまく使っていくことが大事
+        // javatryのstep5とstep6のコンセプト
+        // オブジェクトが綺麗に見いだせてこその三大原則
     }
 
     private void saveBuyingHistory(TicketBooth booth, Ticket ticket) {
@@ -241,6 +262,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         int land = animal.getHitPoint();
         log(land); // your answer? => 7
         // test_objectOriented_polymorphism_2nd_asAbstractと内容は同じ、インスタンスの生成を別メソッドに抽出しただけ→メリットは？
+        // #1on1: test_メソッド側が、Dogに依存をしていない。DogをCatに変える時、test_を1文字を修正しない。
     }
 
     private Animal createAnyAnimal() {
@@ -269,6 +291,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         String sea = sound.getBarkWord();
         log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
+        // TODO kumo CatなのでdownHitPointするので... (書くところ間違えたみたいですね) by jflute (2025/10/14)
         log(land); // your answer? => 7
     }
 
@@ -282,6 +305,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         String sea = sound.getBarkWord();
         log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
+        // TODO kumo Zombieの場合は、またちょっと違う結果になる (書くところ間違えたようで) by jflute (2025/10/14)
         log(land); // your answer? => 5
     }
 
@@ -295,8 +319,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // what is happy?
         // 同じメソッドを呼び出すことが可能になる（共通したメソッドを同じように利用できる（ただし、中身はオーバーライドで自由に変更可能））
         // _/_/_/_/_/_/_/_/_/_/
+        // #1on1: 日常の世界でも、ポリモーフィズムいっぱいある話
     }
-
+    
+    // TODO jflute 次回1on1ここから (2025/10/14)
     // ===================================================================================
     //                                                              Polymorphism Interface
     //                                                              ======================

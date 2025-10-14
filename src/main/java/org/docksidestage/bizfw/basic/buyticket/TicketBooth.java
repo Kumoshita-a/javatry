@@ -15,7 +15,7 @@
  */
 package org.docksidestage.bizfw.basic.buyticket;
 
-// TODO done kumo javadocにauthor追加を by jflute (2025/09/30)
+// done kumo javadocにauthor追加を by jflute (2025/09/30)
 /**
  * @author jflute
  * @author Kumoshita-a
@@ -86,7 +86,7 @@ public class TicketBooth {
         return doBuyOneDay(handedMoney);
     }
 
-    // TODO done kumo change の計算をprivateで再利用してみましょう by jflute (2025/09/30)
+    // done kumo change の計算をprivateで再利用してみましょう by jflute (2025/09/30)
     public TicketBuyResult buyTwoDayPassport(Integer handedMoney) {
         Ticket ticket = doBuy(TicketType.TWO_DAY, handedMoney);
         int change = calculateChange(handedMoney, ticket);

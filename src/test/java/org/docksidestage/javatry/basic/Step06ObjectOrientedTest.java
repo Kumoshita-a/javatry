@@ -216,19 +216,20 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Dog dog = new Dog();
         BarkedSound sound = dog.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = dog.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
+        // breatheIn(), prepareAbdominalMuscle(), doBark(barkWord) で3回HitPointが減っている
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_2nd_asAbstract() {
-        Animal animal = new Dog();
+        Animal animal = new Dog(); // DogはAnimalクラスを継承しているので型エラーは起きない
         BarkedSound sound = animal.bark();
-        String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        String sea = sound.getBarkWord(); // animalクラスであるが、Dogでインスタンスが作られているので、"wan"が入る
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -236,9 +237,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal animal = createAnyAnimal();
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
+        // test_objectOriented_polymorphism_2nd_asAbstractと内容は同じ、インスタンスの生成を別メソッドに抽出しただけ→メリットは？
     }
 
     private Animal createAnyAnimal() {
@@ -254,29 +256,33 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     private void doAnimalSeaLand_for_4th(Animal animal) {
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wan
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
+        // インスタンス生成以外の一連の処理をメソッドにまとめた→再利用しやすくなった
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_5th_overrideWithSuper() {
-        Animal animal = new Cat();
+        Animal animal = new Cat(); // Catクラスのインスタンスが生成される
         BarkedSound sound = animal.bark();
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 7
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_6th_overriddenWithoutSuper() {
         Animal animal = new Zombie();
         BarkedSound sound = animal.bark();
+            // breatheIn(); 9（奇数なので一回だけダメージ）
+            // prepareAbdominalMuscle(); 8 偶数なので2回ダメージ）→ 7
+            // BarkedSound barkedSound = doBark(barkWord); 6（偶数なので2回ダメージ）→ 5
         String sea = sound.getBarkWord();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        log(land); // your answer? => 
+        log(land); // your answer? => 5
     }
 
     /**
@@ -287,7 +293,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is happy?
-        //
+        // 同じメソッドを呼び出すことが可能になる（共通したメソッドを同じように利用できる（ただし、中身はオーバーライドで自由に変更可能））
         // _/_/_/_/_/_/_/_/_/_/
     }
 

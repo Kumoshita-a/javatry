@@ -67,7 +67,8 @@ public abstract class Animal implements Loudable {
         downHitPoint();
     }
 
-    protected abstract String getBarkWord();
+    protected abstract String getBarkWord(); // インターフェース的なもの
+    // 利用例：具体的なアニマルクラスで定義されている→Dog: "wan"
 
     protected BarkedSound doBark(String barkWord) {
         downHitPoint();

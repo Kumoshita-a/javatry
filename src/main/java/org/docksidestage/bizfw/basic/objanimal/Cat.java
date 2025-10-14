@@ -57,9 +57,9 @@ public class Cat extends Animal implements FastRunner {
     //                                                                           Hit Point
     //                                                                           =========
     @Override
-    protected void downHitPoint() {
+    protected void downHitPoint() { // もともとのdownHitPointの処理を上書き
         super.downHitPoint();
-        if (hitPoint % 2 == 0) {
+        if (hitPoint % 2 == 0) { // hitPointが偶数ならもう一度ダメージ
             super.downHitPoint();
         }
     }

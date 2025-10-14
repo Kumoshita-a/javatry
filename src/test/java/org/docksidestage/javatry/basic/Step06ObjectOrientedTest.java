@@ -32,7 +32,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate exercise as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りにエクササイズを実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author Kumoshita-a
  */
 public class Step06ObjectOrientedTest extends PlainTestCase {
 
@@ -67,13 +67,16 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         if (handedMoney < oneDayPrice) {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
-        salesProceeds = handedMoney;
+        // salesProceeds = handedMoney; // 計上するお金がチケットの値段ではなく、持っているお金になっている。
+        salesProceeds = oneDayPrice;
 
         //
         // [ticket info]
         //
         // simulation: actually these variables should be more wide scope
-        int displayPrice = quantity;
+        // int displayPrice = quantity; // 値段が入るところに在庫が入っている
+        // そもそもdisplayPriceって何を示すのか？→showYourTicket
+        int displayPrice = oneDayPrice;
         boolean alreadyIn = false;
 
         // other processes here...
@@ -92,14 +95,18 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //
         // [final process]
         //
-        saveBuyingHistory(quantity, displayPrice, salesProceeds, alreadyIn);
+        // saveBuyingHistory(quantity, displayPrice, salesProceeds, alreadyIn); // メソッドの引数はint quantity, Integer salesProceeds, int displayPrice, boolean alreadyInだが、代入の順序が違う
+        saveBuyingHistory(quantity, salesProceeds, displayPrice, alreadyIn);
     }
 
     private void saveBuyingHistory(int quantity, Integer salesProceeds, int displayPrice, boolean alreadyIn) {
         if (alreadyIn) {
             // simulation: only logging here (normally e.g. DB insert)
-            showTicketBooth(displayPrice, salesProceeds);
-            showYourTicket(quantity, alreadyIn);
+            // showTicketBooth(displayPrice, salesProceeds); // メソッドの引数はint quantity, Integer salesProceedsだが、代入する値がおかしい
+            // showYourTicket(quantity, alreadyIn); // メソッドの引数はint displayPrice, boolean alreadyInだが、代入する値がおかしい
+            // そもそも引数のセットから考えると、呼び出すメソッドが違う
+            showYourTicket(displayPrice, alreadyIn);
+            showTicketBooth(quantity, salesProceeds);
         }
     }
 

@@ -177,6 +177,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // [final process]
         //
         saveBuyingHistory(booth, ticket);
+
+        // オブジェクトとは何か？
+        // - ドメイン上の意味と、それを一貫した正しい状態に保つ振る舞いをひとまとまりにしたもの
+        // - 外部から同様に呼び出せるようにデータとメソッドをまとめたもの (処理に変更を加えた際に他の箇所も同様に変更を反映できるようにしたもの：保守性を高める)
     }
 
     private void saveBuyingHistory(TicketBooth booth, Ticket ticket) {

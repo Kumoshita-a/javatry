@@ -30,6 +30,10 @@ import org.docksidestage.bizfw.basic.objanimal.swimmer.Swimmable;
 import org.docksidestage.javatry.basic.st6.dbms.St6Database;
 import org.docksidestage.javatry.basic.st6.dbms.St6MySql;
 import org.docksidestage.javatry.basic.st6.dbms.St6PostgreSql;
+import org.docksidestage.javatry.basic.st6.os.St6MacOperationSystem;
+import org.docksidestage.javatry.basic.st6.os.St6OldWindowsOperationSystem;
+import org.docksidestage.javatry.basic.st6.os.St6OperationSystem;
+import org.docksidestage.javatry.basic.st6.os.St6WindowsOperationSystem;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -474,6 +478,36 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_specialization_extractToConcrete() {
         // your confirmation code here
+        St6OperationSystem windows = new St6WindowsOperationSystem("Alice");
+        St6OperationSystem mac = new St6MacOperationSystem("Bob");
+        St6OperationSystem oldWindows = new St6OldWindowsOperationSystem("Charlie");
+        
+        // Windowsのファイルパス構築
+        String windowsPath = windows.buildUserResourcePath("Documents/photo.jpg");
+        log("Windows path: " + windowsPath); // "C:\Users\Alice\Documents\photo.jpg"
+        
+        // Macのファイルパス構築
+        String macPath = mac.buildUserResourcePath("Documents/photo.jpg");
+        log("Mac path: " + macPath); // "/Users/Bob/Documents/photo.jpg"
+        
+        // Old Windowsのファイルパス構築
+        String oldWindowsPath = oldWindows.buildUserResourcePath("Documents/photo.jpg");
+        log("Old Windows path: " + oldWindowsPath); // "C:\Documents and Settings\Charlie\Documents\photo.jpg"
+        
+        // 共通の属性にアクセス
+        log("Windows OS type: " + windows.getOsType()); // "Windows"
+        log("Mac OS type: " + mac.getOsType()); // "Mac"
+        
+        // 抽象クラス型として扱える
+        St6OperationSystem[] systems = {windows, mac, oldWindows};
+        for (St6OperationSystem os : systems) {
+            String path = os.buildUserResourcePath("config.txt");
+            log(os.getOsType() + " config path: " + path);
+                // Windows config path: \Users\Alice\config.txt
+                // Mac config path: /Users/Bob/config.txt
+                // OldWindows config path: \Documents and Settings\Charlie\config.txt
+                // の順で出力される
+        }
     }
 
     // ===================================================================================

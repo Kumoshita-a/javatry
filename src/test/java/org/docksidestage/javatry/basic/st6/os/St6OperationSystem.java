@@ -17,15 +17,9 @@ package org.docksidestage.javatry.basic.st6.os;
 
 /**
  * @author jflute
+ * @author Kumoshita-a
  */
-public class St6OperationSystem {
-
-    // ===================================================================================
-    //                                                                          Definition
-    //                                                                          ==========
-    private static final String OS_TYPE_MAC = "Mac";
-    private static final String OS_TYPE_WINDOWS = "Windows";
-    private static final String OS_TYPE_OLD_WINDOWS = "OldWindows";
+public abstract class St6OperationSystem {
 
     // ===================================================================================
     //                                                                           Attribute
@@ -44,6 +38,11 @@ public class St6OperationSystem {
     // ===================================================================================
     //                                                                      User Directory
     //                                                                      ==============
+    /**
+     * 作成するユーザーリソースパスを返す。
+     * @param relativePath リレイティブパス (例: "documents/myfile.txt") ※ not null
+     * @return ユーザーリソースパス
+     */
     public String buildUserResourcePath(String relativePath) {
         String fileSeparator = getFileSeparator();
         String userDirectory = getUserDirectory();
@@ -51,27 +50,23 @@ public class St6OperationSystem {
         return resourcePath.replace("/", fileSeparator);
     }
 
-    protected String getFileSeparator() {
-        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
-            return "/";
-        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
-            return "\\";
-        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
-            return "\\";
-        } else {
-            throw new IllegalStateException("Unknown osType: " + osType);
-        }
-    }
+    /**
+     * @return ファイルセパレーターを文字列で返す。
+     */
+    protected abstract String getFileSeparator();
 
-    protected String getUserDirectory() {
-        if (OS_TYPE_MAC.equalsIgnoreCase(osType)) {
-            return "/Users/" + loginId;
-        } else if (OS_TYPE_WINDOWS.equalsIgnoreCase(osType)) {
-            return "/Users/" + loginId;
-        } else if (OS_TYPE_OLD_WINDOWS.equalsIgnoreCase(osType)) {
-            return "/Documents and Settings/" + loginId;
-        } else {
-            throw new IllegalStateException("Unknown osType: " + osType);
-        }
+    /**
+     * @return ユーザーディレクトリを文字列で返す。
+     */
+    protected abstract String getUserDirectory();
+
+    // ===================================================================================
+    //                                                                            Accessor
+    //                                                                            ========
+    public String getOsType() {
+        return osType;
+    }
+    public String getLoginId() {
+        return loginId;
     }
 }

@@ -21,10 +21,12 @@ import org.docksidestage.bizfw.basic.objanimal.Animal;
 import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.Cat;
 import org.docksidestage.bizfw.basic.objanimal.Dog;
+import org.docksidestage.bizfw.basic.objanimal.Elephant;
 import org.docksidestage.bizfw.basic.objanimal.Zombie;
 import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
+import org.docksidestage.bizfw.basic.objanimal.swimmer.Swimmable;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -332,18 +334,21 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_polymorphism_interface_dispatch() {
         Loudable loudable = new Zombie();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+            // bark().getBarkWord();なので、Zombieのbark()が呼ばれる
+        log(sea); // your answer? => uooo
         String land = ((Zombie) loudable).bark().getBarkWord();
-        log(land); // your answer? => 
+            // Loudable型をZombie型にキャストしてからbark()を呼ぶので、やはりZombieのbark()が呼ばれる
+        log(land); // your answer? => uooo
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_objectOriented_polymorphism_interface_hierarchy() {
         Loudable loudable = new AlarmClock();
         String sea = loudable.soundLoudly();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => jiri jiri jiri---
         boolean land = loudable instanceof Animal;
-        log(land); // your answer? => 
+            // implements Loudable なのでAnimalのインスタンスではない
+        log(land); // your answer? => false
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -351,9 +356,11 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         Animal seaAnimal = new Cat();
         Animal landAnimal = new Zombie();
         boolean sea = seaAnimal instanceof FastRunner;
-        log(sea); // your answer? => 
+            // public class Cat extends Animal implements FastRunner なので
+        log(sea); // your answer? => true
         boolean land = landAnimal instanceof FastRunner;
-        log(land); // your answer? => 
+            // public class Zombie extends Animal なので
+        log(land); // your answer? => false
     }
 
     /**
@@ -362,6 +369,9 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_interface_runnerImpl() {
         // your confirmation code here
+        Animal animal = new Dog();
+        boolean sea = animal instanceof FastRunner;
+        log(sea); // your answer? => true
     }
 
     /**
@@ -372,7 +382,8 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // write your memo here:
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // what is difference?
-        //
+        // 抽象クラス：「is-a関係」同じ種類のものの共通部分を抽出、継承は1つだけ
+        // インターフェース：「can-do関係」できることの契約を定義、複数実装可能
         // _/_/_/_/_/_/_/_/_/_/
     }
 
@@ -385,6 +396,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeConcrete() {
         // your confirmation code here
+        Animal elephant = new Elephant();
+        BarkedSound sound = elephant.bark();
+        String barkWord = sound.getBarkWord();
+        log(barkWord); // "pao"
+        int hitPoint = elephant.getHitPoint();
+        log(hitPoint); // 12 (初期15 - bark()で3回downHitPoint()が呼ばれる)
     }
 
     /**
@@ -393,6 +410,24 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_polymorphism_makeInterface() {
         // your confirmation code here
+        Animal dog = new Dog();
+        Animal cat = new Cat();
+        Animal elephant = new Elephant();
+        
+        // DogとCatはSwimmableを実装している
+        boolean dogCanSwim = dog instanceof Swimmable;
+        boolean catCanSwim = cat instanceof Swimmable;
+        boolean elephantCanSwim = elephant instanceof Swimmable;
+        
+        log("Dog can swim: " + dogCanSwim); // true
+        log("Cat can swim: " + catCanSwim); // true
+        log("Elephant can swim: " + elephantCanSwim); // false
+        
+        // Swimmableインターフェースとして扱う
+        if (dog instanceof Swimmable) {
+            Swimmable swimmableDog = (Swimmable) dog;
+            swimmableDog.swim(); // 泳ぐ
+        }
     }
 
     // ===================================================================================

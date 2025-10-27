@@ -16,12 +16,25 @@
 package org.docksidestage.javatry.basic.st6.dbms;
 
 /**
+ * The class for MySQL database.
  * @author jflute
+ * @author Kumoshita-a
  */
-public class St6MySql {
+public class St6MySql extends St6Database {
 
-    public String buildPagingQuery(int pageSize, int pageNumber) {
-        int offset = pageSize * (pageNumber - 1);
-        return "limit " + offset + ", " + pageSize;
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public St6MySql(String url, String user, String password) {
+        super(url, user, password);
+    }
+
+    // ===================================================================================
+    //                                                                              Paging
+    //                                                                              ======
+    @Override
+    protected String buildPagingQuery(int pageSize, int pageNumber) {
+        int offset = calculateOffset(pageSize, pageNumber);
+        return "limit " + offset + ", " + pageSize; // MySQL style
     }
 }

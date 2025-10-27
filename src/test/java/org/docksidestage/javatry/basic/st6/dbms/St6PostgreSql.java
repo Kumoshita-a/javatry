@@ -16,12 +16,25 @@
 package org.docksidestage.javatry.basic.st6.dbms;
 
 /**
+ * The class for PostgreSQL database.
  * @author jflute
+ * @author Kumoshita-a
  */
-public class St6PostgreSql {
+public class St6PostgreSql extends St6Database {
 
-    public String buildPagingQuery(int pageSize, int pageNumber) {
-        int offset = pageSize * (pageNumber - 1);
-        return "offset " + offset + " limit " + pageSize;
+    // ===================================================================================
+    //                                                                         Constructor
+    //                                                                         ===========
+    public St6PostgreSql(String url, String user, String password) {
+        super(url, user, password);
+    }
+
+    // ===================================================================================
+    //                                                                              Paging
+    //                                                                              ======
+    @Override
+    protected String buildPagingQuery(int pageSize, int pageNumber) {
+        int offset = calculateOffset(pageSize, pageNumber);
+        return "offset " + offset + " limit " + pageSize; // PostgreSQL style
     }
 }

@@ -27,6 +27,9 @@ import org.docksidestage.bizfw.basic.objanimal.loud.AlarmClock;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 import org.docksidestage.bizfw.basic.objanimal.runner.FastRunner;
 import org.docksidestage.bizfw.basic.objanimal.swimmer.Swimmable;
+import org.docksidestage.javatry.basic.st6.dbms.St6Database;
+import org.docksidestage.javatry.basic.st6.dbms.St6MySql;
+import org.docksidestage.javatry.basic.st6.dbms.St6PostgreSql;
 import org.docksidestage.unit.PlainTestCase;
 
 /**
@@ -439,6 +442,30 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_generalization_extractToAbstract() {
         // your confirmation code here
+        St6Database mysql = new St6MySql("jdbc:mysql://localhost:3306/mydb", "root", "password");
+        St6Database postgresql = new St6PostgreSql("jdbc:postgresql://localhost:5432/mydb", "postgres", "password");
+        
+        // MySQLのページングクエリ: "limit offset, pageSize"形式
+        String mysqlPaging = mysql.getPagingQuery(10, 3);
+        log("MySQL paging query: " + mysqlPaging); // "limit 20, 10"
+        
+        // PostgreSQLのページングクエリ: "offset offset limit pageSize"形式
+        String postgresqlPaging = postgresql.getPagingQuery(10, 3);
+        log("PostgreSQL paging query: " + postgresqlPaging); // "offset 20 limit 10"
+        
+        // 共通の属性にアクセス
+        log("MySQL URL: " + mysql.getUrl());
+        log("PostgreSQL URL: " + postgresql.getUrl());
+        
+        // 抽象クラス型として扱える
+        St6Database[] databases = {mysql, postgresql};
+        for (St6Database db : databases) {
+            String pagingQuery = db.getPagingQuery(5, 2);
+            log("Database paging: " + pagingQuery);
+            // Database paging: limit 20, 10 // MySQL
+            // Database paging: offset 10 limit 5 // PostgreSQL
+            // の順で出力される
+        }
     }
 
     /**

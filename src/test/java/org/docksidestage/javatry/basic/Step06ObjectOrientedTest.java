@@ -47,7 +47,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (OneDayPassportを買って InPark する処理の中で、(simulationを除いて)間違いがいくつかあるので修正しましょう)
      */
     public void test_objectOriented_aboutObject_againstObject() {
-        // TODO kumo (1on1の後に気付いた) 間違い、あと2つあります。結構単純な間違いです by jflute (2025/10/14)
+        // TODO done kumo (1on1の後に気付いた) 間違い、あと2つあります。結構単純な間違いです by jflute (2025/10/14)
         //
         // [ticket booth info]
         //
@@ -64,10 +64,10 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         if (quantity <= 0) {
             throw new IllegalStateException("Sold out");
         }
-        --quantity;
         if (handedMoney < oneDayPrice) {
             throw new IllegalStateException("Short money: handedMoney=" + handedMoney);
         }
+        --quantity; // 正しく購入処理ができたあとに在庫を減らすように修正
         // salesProceeds = handedMoney; // 計上するお金がチケットの値段ではなく、持っているお金になっている。
         salesProceeds = oneDayPrice;
 
@@ -89,7 +89,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         //
         // simulation: actually this process should be called by other trigger
         if (alreadyIn) {
-            throw new IllegalStateException("Already in park by this ticket: displayPrice=" + quantity);
+            throw new IllegalStateException("Already in park by this ticket: displayPrice=" + displayPrice); // displayPriceじゃなくてquantityが入っていたので修正
         }
         alreadyIn = true;
 
@@ -288,25 +288,27 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
     public void test_objectOriented_polymorphism_5th_overrideWithSuper() {
         Animal animal = new Cat(); // Catクラスのインスタンスが生成される
         BarkedSound sound = animal.bark();
-        String sea = sound.getBarkWord();
-        log(sea); // your answer? => nya-
-        int land = animal.getHitPoint();
-        // TODO kumo CatなのでdownHitPointするので... (書くところ間違えたみたいですね) by jflute (2025/10/14)
-        log(land); // your answer? => 7
-    }
-
-    /** Same as the previous method question. (前のメソッドの質問と同じ) */
-    public void test_objectOriented_polymorphism_6th_overriddenWithoutSuper() {
-        Animal animal = new Zombie();
-        BarkedSound sound = animal.bark();
             // breatheIn(); 9（奇数なので一回だけダメージ）
             // prepareAbdominalMuscle(); 8 偶数なので2回ダメージ）→ 7
             // BarkedSound barkedSound = doBark(barkWord); 6（偶数なので2回ダメージ）→ 5
         String sea = sound.getBarkWord();
         log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        // TODO kumo Zombieの場合は、またちょっと違う結果になる (書くところ間違えたようで) by jflute (2025/10/14)
+        // TODO done kumo CatなのでdownHitPointするので... (書くところ間違えたみたいですね) by jflute (2025/10/14)
         log(land); // your answer? => 5
+    }
+
+    /** Same as the previous method question. (前のメソッドの質問と同じ) */
+    public void test_objectOriented_polymorphism_6th_overriddenWithoutSuper() {
+        Animal animal = new Zombie();
+        BarkedSound sound = animal.bark();
+        String sea = sound.getBarkWord();
+        log(sea); // your answer? => uooo
+        int land = animal.getHitPoint();
+        // TODO done kumo Zombieの場合は、またちょっと違う結果になる (書くところ間違えたようで) by jflute (2025/10/14)
+        log(land); // your answer? => -1
+            // getInitialHitPointより、初期値は-1
+            // downHitPointは何も書かれてないので、hitPointは初期値のまま
     }
 
     /**

@@ -65,6 +65,8 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
+    // done kumo [いいね] publicに関するコメントがあるの素晴らしい by jflute (2025/10/28)
+    // TODO kumo 修行++: やはりpublicにしたくないので、なんとかprotectedに戻せるようにしましょう by jflute (2025/10/28)
     public void downHitPoint() { // public for BarkingProcess (in sub-package)
         --hitPoint;
         if (hitPoint <= 0) {

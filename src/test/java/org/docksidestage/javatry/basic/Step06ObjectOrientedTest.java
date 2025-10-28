@@ -56,7 +56,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      * (OneDayPassportを買って InPark する処理の中で、(simulationを除いて)間違いがいくつかあるので修正しましょう)
      */
     public void test_objectOriented_aboutObject_againstObject() {
-        // TODO done kumo (1on1の後に気付いた) 間違い、あと2つあります。結構単純な間違いです by jflute (2025/10/14)
+        // done kumo (1on1の後に気付いた) 間違い、あと2つあります。結構単純な間違いです by jflute (2025/10/14)
         //
         // [ticket booth info]
         //
@@ -303,7 +303,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         String sea = sound.getBarkWord();
         log(sea); // your answer? => nya-
         int land = animal.getHitPoint();
-        // TODO done kumo CatなのでdownHitPointするので... (書くところ間違えたみたいですね) by jflute (2025/10/14)
+        // done kumo CatなのでdownHitPointするので... (書くところ間違えたみたいですね) by jflute (2025/10/14)
         log(land); // your answer? => 5
     }
 
@@ -314,7 +314,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         String sea = sound.getBarkWord();
         log(sea); // your answer? => uooo
         int land = animal.getHitPoint();
-        // TODO done kumo Zombieの場合は、またちょっと違う結果になる (書くところ間違えたようで) by jflute (2025/10/14)
+        // done kumo Zombieの場合は、またちょっと違う結果になる (書くところ間違えたようで) by jflute (2025/10/14)
         log(land); // your answer? => -1
             // getInitialHitPointより、初期値は-1
             // downHitPointは何も書かれてないので、hitPointは初期値のまま
@@ -392,6 +392,20 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // 抽象クラス：「is-a関係」同じ種類のものの共通部分を抽出、継承は1つだけ
         // インターフェース：「can-do関係」できることの契約を定義、複数実装可能
         // _/_/_/_/_/_/_/_/_/_/
+        // #1on1: オブジェクト指向とインターフェースのコンセプトの違い。
+        // オブジェクト指向: ポリモーフィズムと実装支援(型付け)
+        // インターフェース: ポリモーフィズム (のみと言っても良い)
+        //
+        // Javaでは、継承は1つだけ。C++, Rubyでは多重継承がOK。
+        // その補完としてインターフェース、複数実装可能でポリモーフィズムを提供する。
+        // 結局多重継承っぽいことが起きてる？でも、インターフェースは実装は提供できない。
+        //
+        // 一方で、コンセプトとは少し離れてJavaでよく見かけるパターン:
+        // ColorBoxの例: 外交と内政で役割分担、ColorBoxというインターフェースを使っている。
+        // o インターフェースが呼び出せるメソッド一覧としてわかりやすい
+        // o 抽象クラスでの内部向けpublicメソッドを隠しやすい (完璧じゃない)
+        // o ColorBoxの全然違う実装を提供してポリモーフィズムできる
+        // (↑これらはコンセプトではなく、実装都合でこうしてると言ってもいいかも)
     }
 
     // ===================================================================================
@@ -437,6 +451,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         }
     }
 
+    // TODO jflute 次回1on1ここからMySQLとOSの話 (2025/10/28)
     // ===================================================================================
     //                                                                           Challenge
     //                                                                           =========

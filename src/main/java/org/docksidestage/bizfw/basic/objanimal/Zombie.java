@@ -54,21 +54,20 @@ public class Zombie extends Animal {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    protected void breatheIn() {
-        super.breatheIn();
-        zombieDiary.countBreatheIn();
+    public String getBarkWord() { // public (same as Animal)
+        return "uooo"; // what in English?
     }
 
     @Override
-    protected String getBarkWord() {
-        return "uooo"; // what in English?
+    public void hookAfterBreatheIn() { // public (same as Animal)
+        zombieDiary.countBreatheIn();
     }
 
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
     @Override
-    protected void downHitPoint() {
+    public void downHitPoint() { // public (same as Animal)
         // do nothing, infinity hit point
     }
 

@@ -18,7 +18,7 @@ package org.docksidestage.javatry.basic;
 import org.docksidestage.bizfw.basic.buyticket.Ticket;
 import org.docksidestage.bizfw.basic.buyticket.TicketBooth;
 import org.docksidestage.bizfw.basic.objanimal.Animal;
-import org.docksidestage.bizfw.basic.objanimal.BarkedSound;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
 import org.docksidestage.bizfw.basic.objanimal.Cat;
 import org.docksidestage.bizfw.basic.objanimal.Dog;
 import org.docksidestage.bizfw.basic.objanimal.Elephant;
@@ -519,6 +519,28 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_withDelegation() {
         // your confirmation code here
+        
+        // 1. BarkingProcessの利用確認
+        Dog dog = new Dog();
+        BarkedSound dogBarkSound = dog.bark();
+        log("Dog's bark word: {}", dogBarkSound.getBarkWord());
+        log("Dog's hit point after bark: {}", dog.getHitPoint());
+        
+        // 2. downHitPoint()のオーバライド確認
+        Cat cat = new Cat();
+        int catInitialHp = cat.getHitPoint();
+        BarkedSound catBarkSound = cat.bark();
+        int catHpAfterBark = cat.getHitPoint();
+        
+        log("Cat's bark word: {}", catBarkSound.getBarkWord());
+        log("Cat's HP: {} -> {}", catInitialHp, catHpAfterBark);
+        log("Cat's HP decreased by: {}", catInitialHp - catHpAfterBark);
+        
+        // 3. FastRunner実装クラスでの動作確認
+        Elephant elephant = new Elephant();
+        BarkedSound elephantBarkSound = elephant.bark();
+        log("Elephant's bark word: {}", elephantBarkSound.getBarkWord());
+        log("Elephant's hit point after bark: {}", elephant.getHitPoint());
     }
 
     /**
@@ -540,6 +562,26 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
      */
     public void test_objectOriented_writing_withPackageRefactoring() {
         // your confirmation code here
+        
+        // 1. パッケージ構造の確認: barking サブパッケージにクラスが配置されている
+        Dog dog = new Dog();
+        BarkedSound barkSound = dog.bark();
+        log("Dog barked: {}", barkSound.getBarkWord());
+        log("BarkedSound class package: {}", barkSound.getClass().getPackage().getName());
+        // org.docksidestage.bizfw.basic.objanimal.barking
+        
+        // 2. 委譲パターンが正しく動作することを確認
+        Cat cat = new Cat();
+        int catInitialHp = cat.getHitPoint();
+        cat.bark();
+        int catHpAfterBark = cat.getHitPoint();
+        log("Cat HP: {} -> {} (decreased by {})", catInitialHp, catHpAfterBark, catInitialHp - catHpAfterBark);
+        
+        // 3. Zombieのフックメソッドが正しく動作することを確認
+        Zombie zombie = new Zombie();
+        zombie.bark();
+        int breatheInCount = zombie.getZombieDiary().getBreatheInCount();
+        log("Zombie breatheIn count: {}", breatheInCount); // 1
     }
 
     /**

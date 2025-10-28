@@ -15,25 +15,27 @@
  */
 package org.docksidestage.bizfw.basic.objanimal;
 
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The object for animal(動物).
  * @author jflute
+ * @author Kumoshita-a
  */
 public abstract class Animal implements Loudable {
 
     // ===================================================================================
     //                                                                          Definition
     //                                                                          ==========
-    private static final Logger logger = LoggerFactory.getLogger(Animal.class);
+    // (Logger removed: bark logging moved to BarkingProcess)
 
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
     protected int hitPoint; // is HP
+    private final BarkingProcess barkingProcess = new BarkingProcess();
 
     // ===================================================================================
     //                                                                         Constructor
@@ -50,35 +52,20 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        breatheIn();
-        prepareAbdominalMuscle();
-        String barkWord = getBarkWord();
-        BarkedSound barkedSound = doBark(barkWord);
-        return barkedSound;
+        return barkingProcess.executeBark(this);
     }
 
-    protected void breatheIn() { // actually depends on barking
-        logger.debug("...Breathing in for barking"); // dummy implementation
-        downHitPoint();
-    }
+    public abstract String getBarkWord(); // public for BarkingProcess (in sub-package)
+    // 利用例:具体的なアニマルクラスで定義されている→Dog: "wan"
 
-    protected void prepareAbdominalMuscle() { // also actually depends on barking
-        logger.debug("...Using my abdominal muscle for barking"); // dummy implementation
-        downHitPoint();
-    }
-
-    protected abstract String getBarkWord(); // インターフェース的なもの
-    // 利用例：具体的なアニマルクラスで定義されている→Dog: "wan"
-
-    protected BarkedSound doBark(String barkWord) {
-        downHitPoint();
-        return new BarkedSound(barkWord);
+    public void hookAfterBreatheIn() { // public for BarkingProcess (in sub-package)
+        // デフォルトではなにも定義しない(Zombieのためのフックメソッド)
     }
 
     // ===================================================================================
     //                                                                           Hit Point
     //                                                                           =========
-    protected void downHitPoint() {
+    public void downHitPoint() { // public for BarkingProcess (in sub-package)
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());

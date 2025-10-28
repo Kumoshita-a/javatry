@@ -41,7 +41,8 @@ public class Dog extends Animal implements FastRunner, Swimmable {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
-    protected String getBarkWord() {
+    @Override
+    public String getBarkWord() { // public (same as Animal)
         return "wan"; // bow? in English
     }
 

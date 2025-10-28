@@ -41,7 +41,7 @@ public class Cat extends Animal implements FastRunner, Swimmable {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    protected String getBarkWord() {
+    public String getBarkWord() { // public (same as Animal)
         return "nya-"; // mew? in English
     }
 
@@ -64,7 +64,7 @@ public class Cat extends Animal implements FastRunner, Swimmable {
     //                                                                           Hit Point
     //                                                                           =========
     @Override
-    protected void downHitPoint() { // もともとのdownHitPointの処理を上書き
+    public void downHitPoint() { // public (same as Animal)
         super.downHitPoint();
         if (hitPoint % 2 == 0) { // hitPointが偶数ならもう一度ダメージ
             super.downHitPoint();

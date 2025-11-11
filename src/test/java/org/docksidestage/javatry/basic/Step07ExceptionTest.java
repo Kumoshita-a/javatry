@@ -20,6 +20,7 @@ import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
+// TODO kumoshita authorお願いします by jflute (2025/11/11)
 /**
  * The test of variable. <br>
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
@@ -138,6 +139,15 @@ public class Step07ExceptionTest extends PlainTestCase {
         // Throwable は Exception のサブクラスではないため、instanceof 演算子は false を返す
     }
 
+    // #1on1: エラーと例外 (2025/11/11)
+    // 例外は想定されているもの？ by くもしたさん
+    // Javaの Error と Exception
+    // o throwした瞬間にエラー扱いで良いと言えるものがError
+    // o throwした瞬間はまだエラー扱いかどうかはわからない、その瞬間はまだただの例外ケース
+    //   → 例外は、catchしたときに、エラー扱いかどうかを判断する
+    //   → (まだ箱開けてなくてどっちかわからないけど投げている状態)
+
+    // TODO jflute 次回1on1ここから (2025/11/11)
     // ===================================================================================
     //                                                                         NullPointer
     //                                                                         ===========
@@ -195,7 +205,7 @@ public class Step07ExceptionTest extends PlainTestCase {
             log(e);
         }
     }
-
+    
     // ===================================================================================
     //                                                                   Checked Exception
     //                                                                   =================

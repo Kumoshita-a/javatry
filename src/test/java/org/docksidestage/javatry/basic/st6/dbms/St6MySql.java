@@ -32,6 +32,7 @@ public class St6MySql extends St6Database {
     // ===================================================================================
     //                                                                              Paging
     //                                                                              ======
+    // TODO kumoshita offset計算と文字列生成の間に処理を追加するとなったとき、一箇所で修正が済むように by jflute (2025/11/11)
     @Override
     protected String buildPagingQuery(int pageSize, int pageNumber) {
         int offset = calculateOffset(pageSize, pageNumber);

@@ -333,7 +333,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // #1on1: 日常の世界でも、ポリモーフィズムいっぱいある話
     }
     
-    // TODO jflute 次回1on1ここから (2025/10/14)
+    // done jflute 次回1on1ここから (2025/10/14)
     // ===================================================================================
     //                                                              Polymorphism Interface
     //                                                              ======================
@@ -523,6 +523,12 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
                 // OldWindows config path: \Documents and Settings\Charlie\config.txt
                 // の順で出力される
         }
+        // #1on1: [思考トレーニング] /Users/ + getLoginId() をMacとWindowsで再利用した方がいいか？ (2025/11/11) 
+        // システムが違うから...してもいいけど!?しなくても... by くもしたさん
+        // もし再利用するとして、メソッド名をどうする？悩む... NewSystemUserDirectory!? by くもしたさん
+        // 意味が同じかどうか？
+        // 「コードが同じだから再利用するわけじゃなく、意味が同じだから再利用する」
+        // 意味が同じであれば、メソッド名はわりとすぐに思いつくはず。
     }
 
     // ===================================================================================

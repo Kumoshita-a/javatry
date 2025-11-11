@@ -47,7 +47,11 @@ public class Step07ExceptionTest extends PlainTestCase {
         } finally {
             sea.append("broadway");
         }
-        log(sea); // your answer? =>
+        log(sea); // your answer? => hangarbroadway
+        // land -> showbase -> oneman と実行される
+        // oneman メソッドで IllegalStateException がスローされるため、catch ブロックが実行される
+        // そのため、sea には "hangar" が追加される
+        // 最後に finally ブロックが実行され、"broadway" が追加される
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -60,7 +64,10 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             sea = e.getMessage();
         }
-        log(sea); // your answer? =>
+        log(sea); // your answer? => oneman at showbase
+        // land -> showbase -> oneman と実行される
+        // oneman メソッドで IllegalStateException がスローされるため、catch ブロックが実行される
+        // そのため、sea には "oneman at showbase" が設定される
     }
 
     /**
@@ -75,7 +82,14 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? => St7BasicExceptionThrower, oneman(), 40
+        // at org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower.oneman(St7BasicExceptionThrower.java:40) <- これが例外を引き起こしたログ
+        // St7BasicExceptionThrower.java:40
+        //     at org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower.showbase(St7BasicExceptionThrower.java:35)
+        // St7BasicExceptionThrower.java:35
+        //     at org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower.land(St7BasicExceptionThrower.java:30)
+        // St7BasicExceptionThrower.java:30
+        //     at org.docksidestage.javatry.basic.Step07ExceptionTest.test_exception_basic_stacktrace(Step07ExceptionTest.java:73)
     }
 
     // ===================================================================================
@@ -88,35 +102,40 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_hierarchy_Runtime_instanceof_RuntimeException() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof RuntimeException;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
+        // IllegalStateException は RuntimeException のサブクラスであるため、instanceof 演算子は true を返す
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Exception() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Exception;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
+        // IllegalStateException は Exception のサブクラスであるため、instanceof 演算子は true を返す
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Error() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Error;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => false
+        // IllegalStateException は Error のサブクラスではないため、instanceof 演算子は false を返す
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Runtime_instanceof_Throwable() {
         Object exp = new IllegalStateException("mystic");
         boolean sea = exp instanceof Throwable;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => true
+        // IllegalStateException は Throwable のサブクラスであるため、instanceof 演算子は true を返す
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
     public void test_exception_hierarchy_Throwable_instanceof_Exception() {
         Object exp = new Throwable("mystic");
         boolean sea = exp instanceof Exception;
-        log(sea); // your answer? => 
+        log(sea); // your answer? => false
+        // Throwable は Exception のサブクラスではないため、instanceof 演算子は false を返す
     }
 
     // ===================================================================================
@@ -135,7 +154,9 @@ public class Step07ExceptionTest extends PlainTestCase {
         } catch (NullPointerException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? => land, 152
+        // at org.docksidestage.javatry.basic.Step07ExceptionTest.test_exception_nullpointer_basic(Step07ExceptionTest.java:152)
+        // land 変数が null であるため、land.toLowerCase() の呼び出しで NullPointerException が発生する
     }
 
     /** Same as the previous method question. (前のメソッドの質問と同じ) */
@@ -143,13 +164,16 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             String sea = "mystic";
             String land = !!!sea.equals("mystic") ? null : "oneman";
-            String piari = !!!sea.equals("mystic") ? "plaza" : null;
+            String piari = !!!!!!sea.equals("mystic") ? "plaza" : null;
             int sum = land.length() + piari.length();
             log(sum);
         } catch (NullPointerException e) {
             log(e);
         }
-        // your answer? => 
+        // your answer? => piari, 168
+        // at org.docksidestage.javatry.basic.Step07ExceptionTest.test_exception_nullpointer_headache(Step07ExceptionTest.java:168)
+        // piari 変数が null であるため、piari.length() の呼び出しで NullPointerException が発生する
+        // piariはsea.equals("mystic")がtrueになるとき、!!!sea.equals("mystic")がfalseになり、nullが代入される
     }
 
     /**
@@ -159,9 +183,13 @@ public class Step07ExceptionTest extends PlainTestCase {
     public void test_exception_nullpointer_refactorCode() {
         try {
             String sea = "mystic";
-            String land = !!!sea.equals("mystic") ? null : "oneman";
-            String piari = !!!sea.equals("mystic") ? "plaza" : null;
-            int sum = land.length() + piari.length();
+            boolean mysticSea = sea.equals("mystic");
+            String land = mysticSea ? "oneman" : null;
+            String piari = mysticSea ? null : "plaza";
+
+            int landLength = land.length();
+            int piariLength = piari.length(); // ここで NullPointerException が発生するとわかるはず
+            int sum = landLength + piariLength;
             log(sum);
         } catch (NullPointerException e) {
             log(e);

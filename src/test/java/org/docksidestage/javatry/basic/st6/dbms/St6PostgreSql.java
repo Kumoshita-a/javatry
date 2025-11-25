@@ -33,8 +33,7 @@ public class St6PostgreSql extends St6Database {
     //                                                                              Paging
     //                                                                              ======
     @Override
-    protected String buildPagingQuery(int pageSize, int pageNumber) {
-        int offset = calculateOffset(pageSize, pageNumber);
-        return "offset " + offset + " limit " + pageSize; // PostgreSQL style
+    protected String createQuery(int offset, int pageSize) {
+        return "offset " + offset + " limit " + pageSize;
     }
 }

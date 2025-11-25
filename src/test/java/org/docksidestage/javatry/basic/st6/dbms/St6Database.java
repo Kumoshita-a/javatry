@@ -10,10 +10,10 @@ public abstract class St6Database {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO kumoshita immutableなインスタンス変数なのでfinalを付けてみましょう by jflute (2025/11/11)
-    protected String url;
-    protected String user;
-    protected String password;
+    // TODO done kumoshita immutableなインスタンス変数なのでfinalを付けてみましょう by jflute (2025/11/11)
+    protected final String url;
+    protected final String user;
+    protected final String password;
 
     // ===================================================================================
     //                                                                         Constructor
@@ -47,7 +47,11 @@ public abstract class St6Database {
      * @param pageNumber ページ番号 (1-origin).
      * @return ページクエリ文字列.
      */
-    protected abstract String buildPagingQuery(int pageSize, int pageNumber);
+    protected String buildPagingQuery(int pageSize, int pageNumber) {
+        final int offset = calculateOffset(pageSize, pageNumber);
+        final String pagingQuery = createQuery(offset, pageSize);
+        return pagingQuery;
+    }
 
     /**
      * オフセットの計算 (共通処理)
@@ -58,6 +62,14 @@ public abstract class St6Database {
     protected int calculateOffset(int pageSize, int pageNumber) {
         return pageSize * (pageNumber - 1);
     }
+
+    /**
+     * クエリ文字列の生成 (サブクラスで実装)
+     * @param offset オフセット値.
+     * @param pageSize ページサイズ.
+     * @return クエリ文字列.
+     */
+    protected abstract String createQuery(int offset, int pageSize);
 
     // ===================================================================================
     //                                                                            Accessor

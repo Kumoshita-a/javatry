@@ -20,7 +20,7 @@ import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO done kumoshita authorお願いします by jflute (2025/11/11)
+// done kumoshita authorお願いします by jflute (2025/11/11)
 /**
  * The test of variable. <br>
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
@@ -147,7 +147,7 @@ public class Step07ExceptionTest extends PlainTestCase {
     //   → 例外は、catchしたときに、エラー扱いかどうかを判断する
     //   → (まだ箱開けてなくてどっちかわからないけど投げている状態)
 
-    // TODO jflute 次回1on1ここから (2025/11/11)
+    // done jflute 次回1on1ここから (2025/11/11)
     // ===================================================================================
     //                                                                         NullPointer
     //                                                                         ===========
@@ -206,6 +206,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         }
     }
     
+    // TODO jflute 次回1on1ここから (2025/11/25)
     // ===================================================================================
     //                                                                   Checked Exception
     //                                                                   =================

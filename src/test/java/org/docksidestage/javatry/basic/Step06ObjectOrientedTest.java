@@ -451,7 +451,7 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         }
     }
 
-    // TODO jflute 次回1on1ここからMySQLとOSの話 (2025/10/28)
+    // done jflute 次回1on1ここからMySQLとOSの話 (2025/10/28)
     // ===================================================================================
     //                                                                           Challenge
     //                                                                           =========
@@ -529,6 +529,13 @@ public class Step06ObjectOrientedTest extends PlainTestCase {
         // 意味が同じかどうか？
         // 「コードが同じだから再利用するわけじゃなく、意味が同じだから再利用する」
         // 意味が同じであれば、メソッド名はわりとすぐに思いつくはず。
+        
+        // #1on1: [思考トレーニング2] Windows と OldWindows で "\\" が両方で定義されている。 
+        // これは、再利用する (共有の定数定義する) か？
+        // この場合は、「WindowsのFileSeparator」という共有概念になるので、
+        // 実装方法としても OSFileSeparator.Windows みたいな定義を作る by くもしたさん
+        // enumの理由としては、今後自由に追加できちゃうと... by くもしたさん
+        // 色々な実装例の話、オブジェクトの階層構造の選択肢 by jflute
     }
 
     // ===================================================================================

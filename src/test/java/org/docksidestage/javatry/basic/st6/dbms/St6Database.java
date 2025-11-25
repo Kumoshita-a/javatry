@@ -1,6 +1,8 @@
 package org.docksidestage.javatry.basic.st6.dbms;
 
 // #1on1: データベースという言葉、RDBMSという言葉 (2025/11/11)
+// #1on1: GoFデザインパターンの紹介、テンプレートメソッドパターン (2025/11/25)
+// パターンのコードの形よりも、何の問題を解決しているのか？に注目。
 /**
  * The abstract class for database management system.
  * @author Kumoshita-a
@@ -10,7 +12,7 @@ public abstract class St6Database {
     // ===================================================================================
     //                                                                           Attribute
     //                                                                           =========
-    // TODO done kumoshita immutableなインスタンス変数なのでfinalを付けてみましょう by jflute (2025/11/11)
+    // done kumoshita immutableなインスタンス変数なのでfinalを付けてみましょう by jflute (2025/11/11)
     protected final String url;
     protected final String user;
     protected final String password;

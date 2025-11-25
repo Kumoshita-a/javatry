@@ -174,7 +174,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             String sea = "mystic";
             String land = !!!sea.equals("mystic") ? null : "oneman";
-            String piari = !!!!!!sea.equals("mystic") ? "plaza" : null;
+            String piari = !!!sea.equals("mystic") ? "plaza" : null;
             int sum = land.length() + piari.length();
             log(sum);
         } catch (NullPointerException e) {
@@ -234,9 +234,10 @@ public class Step07ExceptionTest extends PlainTestCase {
             Throwable cause = e.getCause();
             sea = cause.getMessage();
             land = cause.getClass().getSimpleName();
-            log(sea); // your answer? => 
-            log(land); // your answer? => 
-            log(e); // your answer? => 
+            log(sea); // your answer? => Failed to call the third help method: symbol=-1
+            log(land); // your answer? => IllegalArgumentException
+            log(e); // your answer? => java.lang.IllegalStateException: Failed to call the second help method: symbol=1
+            // スタックトレースの最後の "Caused By:"で表示されている例外クラス名　=> NumberFormatException
         }
     }
 
@@ -283,9 +284,13 @@ public class Step07ExceptionTest extends PlainTestCase {
             // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
             // What happens? Write situation and cause here. (何が起きた？状況と原因をここに書いてみましょう)
             // - - - - - - - - - -
-            //
-            //
-            //
+            // 【状況】
+            // お客様がスーパーカーを購入しようとしたときに、製造工程でエラーが発生した。
+            // 
+            // 【原因】
+            // スーパーカーのハンドルを作るために必要な特殊ネジが作れなかった。
+            // 「kawaii」という仕様は既にサポート対象外になっているため、
+            // この仕様のネジを製造することができない。
             // _/_/_/_/_/_/_/_/_/_/
         }
     }

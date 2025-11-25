@@ -20,13 +20,13 @@ import org.docksidestage.javatry.basic.st7.St7BasicExceptionThrower;
 import org.docksidestage.javatry.basic.st7.St7ConstructorChallengeException;
 import org.docksidestage.unit.PlainTestCase;
 
-// TODO kumoshita authorお願いします by jflute (2025/11/11)
+// TODO done kumoshita authorお願いします by jflute (2025/11/11)
 /**
  * The test of variable. <br>
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りに実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author Kumoshita-a
  */
 public class Step07ExceptionTest extends PlainTestCase {
 

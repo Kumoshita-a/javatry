@@ -34,7 +34,11 @@ public class SupercarSteeringWheelComponentDB {
     }
 
     public String findClincherSpecText(Integer clincherSpecId) {
-        return clincherSpecMap.get(clincherSpecId);
+        String specText = clincherSpecMap.get(clincherSpecId);
+        if (specText == null) {
+            throw new IllegalStateException("Unknown clincherSpecId: " + clincherSpecId + " available=" + clincherSpecMap.keySet());
+        }
+        return specText;
     }
 
     public Map<Integer, String> getClincherSpecMap() { // read-only

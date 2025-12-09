@@ -25,7 +25,7 @@ public class SpecialScrewManufacturer {
 
     public SpecialScrew makeSpecialScrew(ScrewSpec screwSpec) {
         if (isKawaiiFaceScrewSpec(screwSpec)) {
-            String msg = "The kawaii face is already unsupported so we cannot make it.";
+            String msg = "Unsupported screw spec for special screw: specText=" + screwSpec.getSpecText() + " reason=kawaii-unsupported";
             throw new ScrewCannotMakeBySpecException(msg);
         }
         return new SpecialScrew(screwSpec.getSpecText());

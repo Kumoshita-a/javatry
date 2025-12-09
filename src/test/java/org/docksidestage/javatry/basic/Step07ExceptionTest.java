@@ -329,7 +329,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         try {
             helpThrowIllegalState();
         } catch (IllegalStateException e) {
-            throw new St7ConstructorChallengeException("Failed to do something.");
+            throw new St7ConstructorChallengeException("Failed to do something.", e);
         }
     }
 
@@ -351,9 +351,8 @@ public class Step07ExceptionTest extends PlainTestCase {
         // _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
         // Write here. (ここに書いてみましょう)
         // - - - - - - - - - -
-        //
-        //
-        //
+        // Exception：アプリケーションが前提条件を満たせず「通常の処理フローから外れた」ことを知らせるもの。呼び出し側で捕捉して復旧・再試行・代替処理することが可能。
+        // Error：アプリケーションが介入しても安全に継続できないケースを示すもの。基本的に捕捉・復旧を期待しない。
         // _/_/_/_/_/_/_/_/_/_/
     }
 }

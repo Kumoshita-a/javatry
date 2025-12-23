@@ -206,7 +206,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         }
     }
     
-    // TODO jflute 次回1on1ここから (2025/11/25)
+    // done jflute 次回1on1ここから (2025/11/25)
     // ===================================================================================
     //                                                                   Checked Exception
     //                                                                   =================
@@ -330,7 +330,7 @@ public class Step07ExceptionTest extends PlainTestCase {
         // (先にデバッグして問題を解決しちゃうと、例外を改善するモチベーションがなくなってるかもしれないから)
     }
 
-    // TODO jflute 次回1on1ここから (2025/12/09)
+    // done jflute 次回1on1ここから (2025/12/09)
     // ===================================================================================
     //                                                                           Challenge
     //                                                                           =========

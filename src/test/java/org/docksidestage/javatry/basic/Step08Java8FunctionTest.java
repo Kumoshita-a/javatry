@@ -165,6 +165,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         if (oldmember != null) {
             log(oldmember.getMemberId(), oldmember.getMemberName());
         }
+
         Optional<St8Member> optMember = new St8DbFacade().selectMember(1);
         if (optMember.isPresent()) {
             St8Member member = optMember.get();
@@ -172,6 +173,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         }
         // your answer? => yes
         // selectMemberメソッドはoldselectMemberメソッドの戻り値をOptionalでラップしているだけなので、同じ内容が出力される。
+        
+        // #1on1: 2015年になってようやくOptional話 (2025/12/23)
+        // Lambda式といっしょに入ってこそ使いやすい!?とjfluteは思う。
     }
 
     /**
@@ -218,6 +222,10 @@ public class Step08Java8FunctionTest extends PlainTestCase {
 
         Optional<St8Member> optMemberFirst = facade.selectMember(1);
 
+        // #1on1: mapとflatMapのコンセプトの違い (2025/12/23)
+        // map() and flatMap() | DBFlute
+        // https://dbflute.seasar.org/ja/manual/topic/programming/java/java8/mapandflat.html
+        
         // map style
         String land = optMemberFirst.map(mb -> mb.oldgetWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
@@ -314,6 +322,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * (メソッド終了時の変数 sea の中身は？)
      */
     public void test_java8_stream_map_flatMap() {
+        // #1on1: StreamAPIがすべてか？話 (2025/12/23)
+        // プログラミング言語のコンセプトによって多少のさじ加減が変わることも。
         List<St8Member> memberList = new St8DbFacade().selectMemberListAll();
         int sea = memberList.stream()
                 .filter(mb -> mb.getWithdrawal().isPresent())

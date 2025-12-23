@@ -33,7 +33,7 @@ import org.docksidestage.unit.PlainTestCase;
  * Operate as javadoc. If it's question style, write your answer before test execution. <br>
  * (javadocの通りに実施。質問形式の場合はテストを実行する前に考えて答えを書いてみましょう)
  * @author jflute
- * @author your_name_here
+ * @author Kumoshita-a
  */
 public class Step08Java8FunctionTest extends PlainTestCase {
 
@@ -68,7 +68,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         log("...Executing lambda expression style callback");
         helpCallbackConsumer(stage -> log(stage + ": " + title));
 
-        // your answer? => 
+        // your answer? => yes
 
         // cannot reassign because it is used at callback process
         //title = "wave";
@@ -84,7 +84,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             log(stage);
         });
         log("lost river");
-        // your answer? => 
+        // your answer? => harbor,broadway,dockside,hangar,lost river
     }
 
     private class St8BasicConsumer implements Consumer<String> {
@@ -116,7 +116,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         String sea = helpCallbackFunction(number -> {
             return label + ": " + number;
         });
-        log(sea); // your answer? => 
+        log(sea); // your answer? => number: 7
     }
 
     private String helpCallbackFunction(Function<Integer, String> oneArgLambda) {
@@ -141,17 +141,11 @@ public class Step08Java8FunctionTest extends PlainTestCase {
      * </pre>
      */
     public void test_java8_lambda_convertStyle_basic() {
-        helpCallbackSupplier(new Supplier<String>() { // sea
-            public String get() {
-                return "broadway";
-            }
-        });
+        helpCallbackSupplier(() -> {return "broadway";});
 
-        helpCallbackSupplier(() -> { // land
-            return "dockside";
-        });
+        helpCallbackSupplier(() -> "dockside");
 
-        helpCallbackSupplier(() -> "hangar"); // piari
+        helpCallbackSupplier(() -> {return "hangar";}); // piari
     }
 
     private void helpCallbackSupplier(Supplier<String> oneArgLambda) {
@@ -176,7 +170,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             St8Member member = optMember.get();
             log(member.getMemberId(), member.getMemberName());
         }
-        // your answer? => 
+        // your answer? => yes
+        // selectMemberメソッドはoldselectMemberメソッドの戻り値をOptionalでラップしているだけなので、同じ内容が出力される。
     }
 
     /**
@@ -192,7 +187,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         optMember.ifPresent(member -> {
             log(member.getMemberId(), member.getMemberName());
         });
-        // your answer? => 
+        // your answer? => yes
+        // ifPresentメソッドは内部的にisPresent()とget()を使っているため、同じ内容が出力される。
     }
 
     /**
@@ -209,6 +205,7 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             St8Withdrawal withdrawal = oldmemberFirst.oldgetWithdrawal();
             if (withdrawal != null) {
                 sea = withdrawal.oldgetPrimaryReason();
+                // sea = "music"
                 if (sea == null) {
                     sea = "*no reason1: the PrimaryReason was null";
                 }
@@ -225,26 +222,31 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         String land = optMemberFirst.map(mb -> mb.oldgetWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
                 .orElse("*no reason: someone was not present");
+                // land = "music"
 
         // flatMap style
         String piari = optMemberFirst.flatMap(mb -> mb.getWithdrawal())
                 .flatMap(wdl -> wdl.getPrimaryReason())
                 .orElse("*no reason: someone was not present");
+                // piari = "music"
 
         // flatMap and map style
         String bonvo = optMemberFirst.flatMap(mb -> mb.getWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
                 .orElse("*no reason: someone was not present");
+                // bonvo = "music"
 
         String dstore = facade.selectMember(2)
                 .flatMap(mb -> mb.getWithdrawal())
                 .map(wdl -> wdl.oldgetPrimaryReason())
                 .orElse("*no reason: someone was not present");
+                // dstore = "*no reason: someone was not present"
 
         String amba = facade.selectMember(3)
                 .flatMap(mb -> mb.getWithdrawal())
                 .flatMap(wdl -> wdl.getPrimaryReason())
                 .orElse("*no reason: someone was not present");
+                // amba = "*no reason: someone was not present"
 
         int defaultWithdrawalId = -1;
         Integer miraco = facade.selectMember(2)
@@ -252,13 +254,13 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .map(wdl -> wdl.getWithdrawalId()) // ID here
                 .orElse(defaultWithdrawalId);
 
-        log(sea); // your answer? => 
-        log(land); // your answer? => 
-        log(piari); // your answer? => 
-        log(bonvo); // your answer? => 
-        log(dstore); // your answer? => 
-        log(amba); // your answer? => 
-        log(miraco); // your answer? => 
+        log(sea); // your answer? => music
+        log(land); // your answer? => music
+        log(piari); // your answer? => music
+        log(bonvo); // your answer? => music
+        log(dstore); // your answer? => *no reason: someone was not present
+        log(amba); // your answer? => *no reason: someone was not present
+        log(miraco); // your answer? => 12
     }
 
     /**
@@ -277,7 +279,8 @@ public class Step08Java8FunctionTest extends PlainTestCase {
         } catch (IllegalStateException e) {
             sea = e.getMessage();
         }
-        log(sea); // your answer? => 
+        log(sea); // your answer? => wave
+        // IllegalStateException("wave")だから
     }
 
     // ===================================================================================
@@ -296,14 +299,14 @@ public class Step08Java8FunctionTest extends PlainTestCase {
             }
         }
         String sea = oldfilteredNameList.toString();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => [broadway, dockside]
 
         List<String> filteredNameList = memberList.stream() //
                 .filter(mb -> mb.getWithdrawal().isPresent()) //
                 .map(mb -> mb.getMemberName()) //
                 .collect(Collectors.toList());
         String land = filteredNameList.toString();
-        log(land); // your answer? => 
+        log(land); // your answer? => [broadway, dockside]
     }
 
     /**
@@ -317,9 +320,9 @@ public class Step08Java8FunctionTest extends PlainTestCase {
                 .flatMap(mb -> mb.getPurchaseList().stream())
                 .filter(pur -> pur.getPurchaseId() > 100)
                 .mapToInt(pur -> pur.getPurchasePrice())
-                .distinct()
+                .distinct() // 重複の削除
                 .sum();
-        log(sea); // your answer? => 
+        log(sea); // your answer? => 600（100+200+300）
     }
 
     // *Stream API will return at Step12 again, it's worth the wait!

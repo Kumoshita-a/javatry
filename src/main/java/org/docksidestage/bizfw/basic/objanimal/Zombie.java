@@ -18,6 +18,7 @@ package org.docksidestage.bizfw.basic.objanimal;
 /**
  * The object for zombie(ゾンビ).
  * @author jflute
+ * @author Kumoshita-a
  */
 public class Zombie extends Animal {
 
@@ -54,12 +55,12 @@ public class Zombie extends Animal {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    public String getBarkWord() { // public (same as Animal)
+    protected String getBarkWord() {
         return "uooo"; // what in English?
     }
 
     @Override
-    public void hookAfterBreatheIn() { // public (same as Animal)
+    protected void hookAfterBreatheIn() {
         zombieDiary.countBreatheIn();
     }
 
@@ -67,7 +68,7 @@ public class Zombie extends Animal {
     //                                                                           Hit Point
     //                                                                           =========
     @Override
-    public void downHitPoint() { // public (same as Animal)
+    protected void downHitPoint() {
         // do nothing, infinity hit point
     }
 

@@ -16,6 +16,7 @@
 package org.docksidestage.bizfw.basic.objanimal;
 
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkedSound;
+import org.docksidestage.bizfw.basic.objanimal.barking.BarkingCallback;
 import org.docksidestage.bizfw.basic.objanimal.barking.BarkingProcess;
 import org.docksidestage.bizfw.basic.objanimal.loud.Loudable;
 
@@ -52,13 +53,26 @@ public abstract class Animal implements Loudable {
     //                                                                               Bark
     //                                                                              ======
     public BarkedSound bark() {
-        return barkingProcess.executeBark(this);
+        return barkingProcess.executeBark(new BarkingCallback() {
+            @Override
+            public String getBarkWord() {
+                return Animal.this.getBarkWord();
+            }
+            @Override
+            public void downHitPoint() {
+                Animal.this.downHitPoint();
+            }
+            @Override
+            public void afterBreatheIn() {
+                Animal.this.hookAfterBreatheIn();
+            }
+        });
     }
 
-    public abstract String getBarkWord(); // public for BarkingProcess (in sub-package)
+    protected abstract String getBarkWord();
     // 利用例:具体的なアニマルクラスで定義されている→Dog: "wan"
 
-    public void hookAfterBreatheIn() { // public for BarkingProcess (in sub-package)
+    protected void hookAfterBreatheIn() {
         // デフォルトではなにも定義しない(Zombieのためのフックメソッド)
     }
 
@@ -66,8 +80,10 @@ public abstract class Animal implements Loudable {
     //                                                                           Hit Point
     //                                                                           =========
     // done kumo [いいね] publicに関するコメントがあるの素晴らしい by jflute (2025/10/28)
-    // TODO kumo 修行++: やはりpublicにしたくないので、なんとかprotectedに戻せるようにしましょう by jflute (2025/10/28)
-    public void downHitPoint() { // public for BarkingProcess (in sub-package)
+    // TODO done kumo 修行++: やはりpublicにしたくないので、なんとかprotectedに戻せるようにしましょう by jflute (2025/10/28)
+    // -> BarkingCallbackインターフェースを使って、protectedメソッドにした
+    // 関数型インターフェースを使う方法もあるらしい？ by Kumoshita-a (2026/1/13)
+    protected void downHitPoint() {
         --hitPoint;
         if (hitPoint <= 0) {
             throw new IllegalStateException("I'm very tired, so I want to sleep" + getBarkWord());

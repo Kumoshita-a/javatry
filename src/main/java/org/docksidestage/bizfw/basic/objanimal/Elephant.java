@@ -24,7 +24,7 @@ public class Elephant extends Animal {
     //                                                                               Bark
     //                                                                              ======
     @Override
-    public String getBarkWord() { // public (same as Animal)
+    protected String getBarkWord() {
         return "pao"; // 象の鳴き声
     }
 }

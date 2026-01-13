@@ -37,6 +37,11 @@ public abstract class Animal implements Loudable {
     //                                                                           =========
     protected int hitPoint; // is HP
     private final BarkingProcess barkingProcess = new BarkingProcess();
+
+    // #1on1: ファクトリーメソッドでオーバーライドするパターン (2026/01/13)
+    //protected BarkingProcess createBarkingProcess() {
+    //    return new BarkingProcess();
+    //}
     
     // ===================================================================================
     //                                                                         Constructor
@@ -52,6 +57,8 @@ public abstract class Animal implements Loudable {
     // ===================================================================================
     //                                                                               Bark
     //                                                                              ======
+    // #1on1: どこからどこまでがオブジェクト指向？コールバックの実現方法は？ (2026/01/13)
+    // 王道のオブジェクト指向と、ミクロなオブジェクト指向などなど。
     public BarkedSound bark() {
         return barkingProcess.executeBark(new BarkingCallback() {
             @Override
@@ -72,6 +79,8 @@ public abstract class Animal implements Loudable {
     protected abstract String getBarkWord();
     // 利用例:具体的なアニマルクラスで定義されている→Dog: "wan"
 
+    // #1on1: ファクトリーメソッドでProcessをサブクラスに公開する方式との違い (2026/01/13)
+    // 柔軟性と堅牢さ、どっちを取るか？
     protected void hookAfterBreatheIn() {
         // デフォルトではなにも定義しない(Zombieのためのフックメソッド)
     }
@@ -80,7 +89,7 @@ public abstract class Animal implements Loudable {
     //                                                                           Hit Point
     //                                                                           =========
     // done kumo [いいね] publicに関するコメントがあるの素晴らしい by jflute (2025/10/28)
-    // TODO done kumo 修行++: やはりpublicにしたくないので、なんとかprotectedに戻せるようにしましょう by jflute (2025/10/28)
+    // done kumo 修行++: やはりpublicにしたくないので、なんとかprotectedに戻せるようにしましょう by jflute (2025/10/28)
     // -> BarkingCallbackインターフェースを使って、protectedメソッドにした
     // 関数型インターフェースを使う方法もあるらしい？ by Kumoshita-a (2026/1/13)
     protected void downHitPoint() {

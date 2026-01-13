@@ -27,6 +27,21 @@ public class Zombie extends Animal {
     //                                                                           =========
     protected final ZombieDiary zombieDiary = new ZombieDiary();
 
+    // #1on1: Zombieの問題、具象to具象の継承を使ったパターン (2026/01/13)
+    // DIコンテナで作るインスタンスとかで、Interceptorの拡張などを入れるなどで具象to具象がよく使われる。
+    //@Override
+    //protected BarkingProcess createBarkingProcess() {
+    //    return new ZombieBarkingProcess();
+    //}
+    //
+    //public class ZombieBarkingProcess extends BarkingProcess {
+    //    @Override
+    //    protected void breatheIn(BarkingCallback callback) {
+    //        super.breatheIn(callback);
+    //        zombieDiary.countBreatheIn();
+    //    }
+    //}
+    
     // ===================================================================================
     //                                                                         Constructor
     //                                                                         ===========
